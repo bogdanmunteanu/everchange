@@ -5,6 +5,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
+
 import ro.bogdanmunteanu.currencyconverter.Application
 import ro.bogdanmunteanu.currencyconverter.di.module.AppModule
 import ro.bogdanmunteanu.currencyconverter.di.module.activities.MainActivityModule
