@@ -1,7 +1,8 @@
-package ro.bogdanmunteanu.currencyconverter
+package ro.bogdanmunteanu.currencyconverter.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ro.bogdanmunteanu.currencyconverter.R
 
 class MainActivity : AppCompatActivity() {
 
