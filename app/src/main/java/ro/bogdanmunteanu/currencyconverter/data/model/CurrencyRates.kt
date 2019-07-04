@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CurrencyRates constructor(
+    val EUR:Double,
     val AUD:Double,
     val BGN:Double,
     val BRL:Double,
@@ -37,3 +38,4 @@ data class CurrencyRates constructor(
     val TRY:Double,
     val USD:Double,
     val ZAR:Double) :Parcelable
+

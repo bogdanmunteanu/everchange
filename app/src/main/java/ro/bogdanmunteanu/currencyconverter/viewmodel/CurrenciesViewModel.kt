@@ -9,19 +9,21 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
-import ro.bogdanmunteanu.currencyconverter.data.di.RevolutApiService
 import ro.bogdanmunteanu.currencyconverter.data.model.Currencies
+import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
+import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CurrenciesViewModel @Inject constructor(val service: RevolutApiService): ViewModel() {
+class CurrenciesViewModel @Inject constructor(val service: RevolutServiceRepository): ViewModel() {
 
     private val TAG = CurrenciesViewModel::class.java.simpleName
 
     private var disposables: CompositeDisposable = CompositeDisposable()
 
-    private var mCurrencies : MutableLiveData<Currencies> = MutableLiveData()
-    val currencies : LiveData<Currencies> get() = mCurrencies
+    private var mCurrencies : MutableLiveData<List<CurrencyRate>> = MutableLiveData()
+    val currencies : LiveData<List<CurrencyRate>> get() = mCurrencies
 
     private var mFetchState : MutableLiveData<State> = MutableLiveData()
     val fetchState : LiveData<State> get() = mFetchState
@@ -32,9 +34,8 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutApiService): V
     }
 
     init {
-        getLiveCurrencies("EUR")
+        mFetchState.value = State.IN_PROGRESS
     }
-
 
     fun getLiveCurrencies(baseCurrency: String)
     {
@@ -43,11 +44,11 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutApiService): V
 
         mFetchState.value = State.IN_PROGRESS
         disposables.add(Observable.interval(0,1000,TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
             .flatMap { service.getCurrencies(baseCurrency) }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 mCurrencies.value=it
+
             },{
                 error->if(error is OfflineException){
                 mFetchState.value = State.OFFLINE
@@ -57,6 +58,7 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutApiService): V
                 Log.e(TAG, Log.getStackTraceString(error))
             }
             }))
+
     }
 
 
