@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
 import ro.bogdanmunteanu.currencyconverter.data.model.Currencies
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
+import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -20,7 +22,7 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
 
     private val TAG = CurrenciesViewModel::class.java.simpleName
 
-    private var disposables: CompositeDisposable = CompositeDisposable()
+    private var disposables = CurrencyDisposable()
 
     private var mCurrencies : MutableLiveData<List<CurrencyRate>> = MutableLiveData()
     val currencies : LiveData<List<CurrencyRate>> get() = mCurrencies
@@ -29,34 +31,30 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
     val fetchState : LiveData<State> get() = mFetchState
 
     override fun onCleared() {
-        disposables.clear()
+        disposables.dispose()
         super.onCleared()
     }
 
     init {
-        mFetchState.value = State.IN_PROGRESS
+        mFetchState.value = State.DONE
     }
 
     fun getLiveCurrencies(baseCurrency: String)
     {
         //another way to do this is
         //Observable.wrap(service.getCurrencies(baseCurrency).delay(1,TimeUnit.SECONDS)).repeat();
+        //
 
         mFetchState.value = State.IN_PROGRESS
-        disposables.add(Observable.interval(0,1000,TimeUnit.SECONDS)
-            .flatMap { service.getCurrencies(baseCurrency) }
+        disposables.add(service.getCurrencies(baseCurrency)
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                mCurrencies.value=it
-
+            .delay(1,TimeUnit.SECONDS)
+            .repeat()
+            .subscribe({ rates : List<CurrencyRate>->
+                mCurrencies.postValue(rates)
             },{
-                error->if(error is OfflineException){
-                mFetchState.value = State.OFFLINE
-                Log.e(TAG,"Device offline")
-            } else {
-                mFetchState.value = State.ERROR
-                Log.e(TAG, Log.getStackTraceString(error))
-            }
+                Log.e(TAG,it.message)
             }))
 
     }

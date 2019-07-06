@@ -34,9 +34,11 @@ enum class CurrencyMapper(val title:String,val subtitle:String,val flagURL:Strin
     THB("THB","Thai baht","https://en.wikipedia.org/wiki/Thailand#/media/File:Flag_of_Thailand.svg"),
     TRY("TRY","Turkish lira","https://en.wikipedia.org/wiki/Turkey#/media/File:Flag_of_Turkey.svg"),
     USD("USD","U.S. Dollar","https://en.wikipedia.org/wiki/United_States#/media/File:Flag_of_the_United_States.svg"),
-    ZAR("ZAR","South African rand","https://en.wikipedia.org/wiki/South_Africa#/media/File:Flag_of_South_Africa.svg")
+    ZAR("ZAR","South African rand","https://en.wikipedia.org/wiki/South_Africa#/media/File:Flag_of_South_Africa.svg");
 
-
+    companion object {
+        fun fromTitle(title:String): CurrencyMapper = values().find { value -> value.title==title } ?: EUR
+    }
 
 
 

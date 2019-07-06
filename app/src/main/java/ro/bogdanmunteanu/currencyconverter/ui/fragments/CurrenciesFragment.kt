@@ -49,20 +49,14 @@ class CurrenciesFragment : DaggerFragment(){
         initToolbar()
 
         val layoutManager = LinearLayoutManager(context)
-
         currenciesRecyclerView.layoutManager = layoutManager
         currenciesRecyclerView.adapter = adapter
+        adapter.onItemClick ={ }
 
-        viewModel.currencies.observe(this, Observer<List<CurrencyRate>>{
-                it -> Log.e("List::",it.toString())
-        })
 
         viewModel.fetchState.observe(this,Observer<CurrenciesViewModel.State>{
-            if(it == CurrenciesViewModel.State.IN_PROGRESS){
+            if(it == CurrenciesViewModel.State.DONE){
                 viewModel.getLiveCurrencies("USD")
-//                loading.visibility = View.VISIBLE
-            } else {
-//                loading.visibility = View.GONE
             }
 
             val error = when(it) {
@@ -79,12 +73,16 @@ class CurrenciesFragment : DaggerFragment(){
 //            }
         })
 
-        if(viewModel.currencies.value == null) {
-            //fetch the data
-            viewModel.getLiveCurrencies("USD")
-        }else{
-            //adapter.setItems(viewModel.repositoryList.value!!)
-        }
+        viewModel.currencies.observe(this, Observer {
+            adapter.setItems(it)
+        })
+
+//        if(viewModel.currencies.value == null) {
+//            //fetch the data
+//            viewModel.getLiveCurrencies("USD")
+//        }else{
+//
+//        }
     }
 
 
