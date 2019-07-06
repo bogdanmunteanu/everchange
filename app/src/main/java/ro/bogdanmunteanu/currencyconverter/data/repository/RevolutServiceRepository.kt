@@ -9,16 +9,16 @@ import kotlin.collections.ArrayList
 
 class RevolutServiceRepository @Inject constructor(private val apiService: RevolutApiService){
 
-    fun getCurrencies(baseCurrency:String) : Single<List<CurrencyRow>> {
+    fun getCurrencies(baseCurrency:String) : Single<List<Any>> {
         return apiService.getCurrencies(baseCurrency).map { t: Currencies -> mapCurrencies(t) }
     }
 
 
-    private fun mapCurrencies(currencies: Currencies) : List<CurrencyRow>
+    private fun mapCurrencies(currencies: Currencies) : List<Any>
     {
         var baseCurrency: CurrencyMapper = CurrencyMapper.fromTitle(currencies.base)
-        val list = ArrayList<CurrencyRow>()
-        list.add(CurrencyRow(baseCurrency.title,baseCurrency.subtitle,1.00,baseCurrency.flagURL))
+        val list = ArrayList<Any>()
+        list.add(BaseCurrencyRow(baseCurrency.title,baseCurrency.subtitle,1.00,baseCurrency.flagURL))
         if(currencies.rates.EUR != 0.00)
         {
             list.add(CurrencyRow(CurrencyMapper.EUR.title,CurrencyMapper.EUR.subtitle,currencies.rates.EUR,CurrencyMapper.EUR.flagURL))

@@ -2,13 +2,10 @@ package ro.bogdanmunteanu.currencyconverter.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.currency_item.view.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
@@ -20,9 +17,9 @@ import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
 
 
 
-class CurrenciesAdapter(private val currencies:ArrayList<CurrencyRate>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onItemClick: ((CurrencyRate) -> Unit)? = null
+    var onItemClick: ((Any) -> Unit)? = null
     var context: Context? = null
 
     override fun getItemCount() = currencies.count()
@@ -100,7 +97,7 @@ class CurrenciesAdapter(private val currencies:ArrayList<CurrencyRate>) : Recycl
         private const val TYPE_CURRENCY = 1
     }
 
-    fun updateItems(newRates: List<CurrencyRate>)
+    fun updateItems(newRates: List<Any>)
     {
         currencies.clear()
         currencies.addAll(newRates)

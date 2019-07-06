@@ -19,8 +19,8 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
 
     private var disposables = CurrencyDisposable()
 
-    private var mCurrencies : MutableLiveData<List<CurrencyRate>> = MutableLiveData()
-    val currencies : LiveData<List<CurrencyRate>> get() = mCurrencies
+    private var mCurrencies : MutableLiveData<List<Any>> = MutableLiveData()
+    val currencies : LiveData<List<Any>> get() = mCurrencies
 
     private var mFetchState : MutableLiveData<State> = MutableLiveData()
     val fetchState : LiveData<State> get() = mFetchState
@@ -46,7 +46,7 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
             .observeOn(AndroidSchedulers.mainThread())
             .delay(1,TimeUnit.SECONDS)
             .repeat()
-            .subscribe({ rates : List<CurrencyRate>->
+            .subscribe({ rates : List<Any>->
                 mCurrencies.postValue(rates)
             },{
                     error->if(error is OfflineException){

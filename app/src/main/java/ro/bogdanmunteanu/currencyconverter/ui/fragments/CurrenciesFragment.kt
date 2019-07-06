@@ -88,9 +88,6 @@ class CurrenciesFragment : DaggerFragment(){
         viewModel.currencies.observe(this, Observer {
            Log.e(TAG,it.toString())
 
-
-
-
             adapter.updateItems(it)
         })
 
