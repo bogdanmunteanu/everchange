@@ -4,17 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
-import ro.bogdanmunteanu.currencyconverter.data.model.Currencies
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -54,7 +49,13 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
             .subscribe({ rates : List<CurrencyRate>->
                 mCurrencies.postValue(rates)
             },{
-                Log.e(TAG,it.message)
+                    error->if(error is OfflineException){
+                mFetchState.postValue(State.OFFLINE)
+                Log.e(TAG,"Device offline")
+            } else {
+                mFetchState.postValue(State.OFFLINE)
+                Log.e(TAG,Log.getStackTraceString(error))
+            }
             }))
 
     }

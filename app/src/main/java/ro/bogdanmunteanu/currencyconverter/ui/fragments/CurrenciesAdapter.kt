@@ -1,43 +1,123 @@
 package ro.bogdanmunteanu.currencyconverter.ui.fragments
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import kotlinx.android.synthetic.main.currency_item.view.*
 import ro.bogdanmunteanu.currencyconverter.R
-
+import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
+import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
 
 
 
-class CurrenciesAdapter(private val currencies:ArrayList<CurrencyRate>) : RecyclerView.Adapter<CurrenciesAdapter.Holder>() {
+
+
+
+class CurrenciesAdapter(private val currencies:ArrayList<CurrencyRate>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onItemClick: ((CurrencyRate) -> Unit)? = null
+    var context: Context? = null
 
+    override fun getItemCount() = currencies.count()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val viewHolder = Holder(LayoutInflater.from(parent.context)
+    override fun getItemViewType(position: Int): Int =
+        when (currencies[position]) {
+            is BaseCurrencyRow -> TYPE_BASE_CURRENCY
+            is CurrencyRow -> TYPE_CURRENCY
+            else -> throw IllegalArgumentException()
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+        TYPE_BASE_CURRENCY -> BaseCurrencyRowHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.currency_item, parent, false))
-
-        return viewHolder
-
+        TYPE_CURRENCY -> CurrencyRowHolder(LayoutInflater.from(parent.context)
+            .inflate(R.layout.currency_item, parent, false))
+        else -> throw IllegalArgumentException()
     }
 
-    override fun getItemCount(): Int = currencies.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
+        when (holder.itemViewType) {
+            TYPE_BASE_CURRENCY -> onBindBaseCurrency(holder, currencies[position] as BaseCurrencyRow)
+            TYPE_CURRENCY -> onBindCurrency(holder, currencies[position] as CurrencyRow)
+            else -> throw IllegalArgumentException()
+        }
 
-    override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.bind(currencies[position])
+    private fun onBindBaseCurrency(holder: RecyclerView.ViewHolder, baseCurrency: BaseCurrencyRow) {
+        val baseCurrencyRowHolder = holder as BaseCurrencyRowHolder
+        baseCurrencyRowHolder.bind(baseCurrency)
     }
 
-    inner class Holder(private val view: View) : RecyclerView.ViewHolder(view) {
+    private fun onBindCurrency(holder: RecyclerView.ViewHolder, currency: CurrencyRow) {
+        val currencyHolder = holder as CurrencyRowHolder
+        currencyHolder.bind(currency)
+        //(holder as MessageViewHolder).messageView.text = row.message
+    }
 
+    //holders
+    inner class CurrencyRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    {
         init {
-
+            itemView.container.setOnClickListener {
+                onItemClick?.invoke(currencies[adapterPosition])
+            }
         }
 
+        @SuppressLint("SetTextI18n")
         fun bind(rate: CurrencyRate) {
-           //bindings
+            itemView.currencyTitle.text = rate.isoCode
+            itemView.currencySubtitle.text = rate.name
+            itemView.currencyInput.setText(rate.rate.toString())
+            itemView.currencyInput.isEnabled = false
+            itemView.currencyImage.setImageResource(getResId(rate.flagUrl,R.mipmap::class.java))
 
+            //view.currencyInput.text= rate.rate
+        }
+
+    }
+
+    inner class BaseCurrencyRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    {
+        @SuppressLint("SetTextI18n")
+        fun bind(rate: CurrencyRate) {
+            itemView.currencyTitle.text = rate.isoCode
+            itemView.currencySubtitle.text = rate.name
+            itemView.currencyInput.setText(rate.rate.toString())
+            itemView.currencyImage.setImageResource(getResId(rate.flagUrl,R.mipmap::class.java))
+
+            //view.currencyInput.text= rate.rate
         }
     }
+
+    companion object {
+        private const val TYPE_BASE_CURRENCY = 0
+        private const val TYPE_CURRENCY = 1
+    }
+
+    fun updateItems(newRates: List<CurrencyRate>)
+    {
+        currencies.clear()
+        currencies.addAll(newRates)
+        notifyDataSetChanged()
+    }
+
+
+    fun getResId(resName: String, c: Class<*>): Int {
+
+        try {
+            val idField = c.getDeclaredField(resName)
+            return idField.getInt(idField)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return -1
+        }
+
+    }
+
 }

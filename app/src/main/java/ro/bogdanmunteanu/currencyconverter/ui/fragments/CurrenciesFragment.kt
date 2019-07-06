@@ -1,20 +1,18 @@
 package ro.bogdanmunteanu.currencyconverter.ui.fragments
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import ro.bogdanmunteanu.currencyconverter.R
-import ro.bogdanmunteanu.currencyconverter.data.model.Currencies
+import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
@@ -51,30 +49,49 @@ class CurrenciesFragment : DaggerFragment(){
         val layoutManager = LinearLayoutManager(context)
         currenciesRecyclerView.layoutManager = layoutManager
         currenciesRecyclerView.adapter = adapter
+        adapter.context = context
         adapter.onItemClick ={ }
 
 
         viewModel.fetchState.observe(this,Observer<CurrenciesViewModel.State>{
-            if(it == CurrenciesViewModel.State.DONE){
-                viewModel.getLiveCurrencies("USD")
-            }
+            when(it) {
+                CurrenciesViewModel.State.DONE->{
+                    viewModel.getLiveCurrencies("BGN")
+                }
+                CurrenciesViewModel.State.IN_PROGRESS->{
+                    connectionImage.setImageResource(R.drawable.ic_wifi)
+                    connectionMessage.setText(R.string.connection_successful)
+                    progress.isIndeterminate = true
+                    progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_green_dark),PorterDuff.Mode.SRC_IN)
+                    settingsButton.visibility=View.GONE
+                }
+                CurrenciesViewModel.State.ERROR -> {
+                    connectionImage.setImageResource(R.drawable.ic_no_wifi)
+                    connectionMessage.setText(R.string.service_unavailable_message)
+                    progress.isIndeterminate = false
+                    progress.progress=50
+                    progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_red_dark),PorterDuff.Mode.SRC_IN)
+                    settingsButton.visibility=View.GONE
+                }
+                CurrenciesViewModel.State.OFFLINE -> {
+                    connectionImage.setImageResource(R.drawable.ic_no_wifi)
+                    connectionMessage.setText(R.string.no_internet_message)
+                    progress.isIndeterminate = true
+                    progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_red_dark),PorterDuff.Mode.SRC_IN)
+                    settingsButton.visibility=View.VISIBLE
 
-            val error = when(it) {
-                CurrenciesViewModel.State.ERROR -> "Could not reach Github API"
-                CurrenciesViewModel.State.OFFLINE -> "Device is offline.Please connect to the internet and try again"
+                }
                 else-> ""
             }
-//            val errorSnackbar = Snackbar.make(mainLayout, error, Snackbar.LENGTH_INDEFINITE)
-//            if (error != "") {
-//                errorSnackbar.view.setBackgroundColor(ResourcesCompat.getColor(resources, android.R.color.holo_red_light,null))
-//                errorSnackbar.show()
-//            } else {
-//                errorSnackbar.dismiss()
-//            }
         })
 
         viewModel.currencies.observe(this, Observer {
-            adapter.setItems(it)
+           Log.e(TAG,it.toString())
+
+
+
+
+            adapter.updateItems(it)
         })
 
 //        if(viewModel.currencies.value == null) {
