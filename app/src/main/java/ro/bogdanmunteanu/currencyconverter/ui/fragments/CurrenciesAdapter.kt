@@ -2,6 +2,8 @@ package ro.bogdanmunteanu.currencyconverter.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
 
     var onItemClick: ((Any) -> Unit)? = null
     var context: Context? = null
+    var baseRate: Int? = null
 
     override fun getItemCount() = currencies.count()
 
@@ -70,11 +73,14 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
         fun bind(rate: CurrencyRate) {
             itemView.currencyTitle.text = rate.isoCode
             itemView.currencySubtitle.text = rate.name
-            itemView.currencyInput.setText(rate.rate.toString())
+            if(baseRate==null) {
+                itemView.currencyInput.setText(rate.rate.toString())
+            }else
+            {
+                itemView.currencyInput.setText(rate.rate.times(baseRate as Int).toString())
+        }
             itemView.currencyInput.isEnabled = false
             itemView.currencyImage.setImageResource(getResId(rate.flagUrl,R.mipmap::class.java))
-
-            //view.currencyInput.text= rate.rate
         }
 
     }
@@ -85,10 +91,27 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
         fun bind(rate: CurrencyRate) {
             itemView.currencyTitle.text = rate.isoCode
             itemView.currencySubtitle.text = rate.name
-            itemView.currencyInput.setText(rate.rate.toString())
+            if(baseRate==null) {
+                itemView.currencyInput.hint = rate.rate.toString()
+            }else
+            {
+                itemView.currencyInput.setText(baseRate.toString())
+            }
+            itemView.currencyInput.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    if(s!!.isEmpty())
+                    {
+                        baseRate=null
+                    }else {
+                        baseRate = s.toString().toInt()
+                        itemView.currencyInput.setSelection(s!!.length)
+                    }
+                }
+            })
             itemView.currencyImage.setImageResource(getResId(rate.flagUrl,R.mipmap::class.java))
 
-            //view.currencyInput.text= rate.rate
         }
     }
 
@@ -116,5 +139,9 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
         }
 
     }
+
+
+
+
 
 }

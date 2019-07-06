@@ -10,11 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
+import io.reactivex.BackpressureStrategy
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
+import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
+import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
 import javax.inject.Inject
 
@@ -26,6 +30,8 @@ class CurrenciesFragment : DaggerFragment(){
     private lateinit var rootView: View
     private lateinit var viewModel: CurrenciesViewModel
     private val adapter = CurrenciesAdapter(arrayListOf())
+    var baseCurrencySubject : PublishSubject<String> = PublishSubject.create()
+
 
     companion object {
         const val TAG:String = "CurrenciesFragment"
@@ -50,13 +56,15 @@ class CurrenciesFragment : DaggerFragment(){
         currenciesRecyclerView.layoutManager = layoutManager
         currenciesRecyclerView.adapter = adapter
         adapter.context = context
-        adapter.onItemClick ={ }
+        adapter.onItemClick = {
+            viewModel.getLiveCurrencies((it as CurrencyRow).isoCode)
+        }
 
 
         viewModel.fetchState.observe(this,Observer<CurrenciesViewModel.State>{
             when(it) {
                 CurrenciesViewModel.State.DONE->{
-                    viewModel.getLiveCurrencies("BGN")
+                    viewModel.getLiveCurrencies("EUR")
                 }
                 CurrenciesViewModel.State.IN_PROGRESS->{
                     connectionImage.setImageResource(R.drawable.ic_wifi)

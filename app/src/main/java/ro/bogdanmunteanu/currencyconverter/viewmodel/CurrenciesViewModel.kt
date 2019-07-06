@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
-import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
+
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
+import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -19,11 +20,15 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
 
     private var disposables = CurrencyDisposable()
 
+
     private var mCurrencies : MutableLiveData<List<Any>> = MutableLiveData()
     val currencies : LiveData<List<Any>> get() = mCurrencies
 
     private var mFetchState : MutableLiveData<State> = MutableLiveData()
     val fetchState : LiveData<State> get() = mFetchState
+
+    private var mBaseCurrency : MutableLiveData<String> = MutableLiveData()
+    val baseCurrency : LiveData<String> get() = mBaseCurrency
 
     override fun onCleared() {
         disposables.dispose()
@@ -34,12 +39,9 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
         mFetchState.value = State.DONE
     }
 
-    fun getLiveCurrencies(baseCurrency: String)
+    fun getLiveCurrencies(baseCurrency:String)
     {
-        //another way to do this is
-        //Observable.wrap(service.getCurrencies(baseCurrency).delay(1,TimeUnit.SECONDS)).repeat();
-        //
-
+        disposables.clear() //need to clear the disposables because we need to make API call with new parameter
         mFetchState.value = State.IN_PROGRESS
         disposables.add(service.getCurrencies(baseCurrency)
             .subscribeOn(Schedulers.io())

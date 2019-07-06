@@ -19,4 +19,10 @@ class CurrencyDisposable {
         compositeDisposable?.dispose()
         compositeDisposable = null
     }
+
+    fun clear()
+    {
+        compositeDisposable?.clear()
+    }
+
 }
