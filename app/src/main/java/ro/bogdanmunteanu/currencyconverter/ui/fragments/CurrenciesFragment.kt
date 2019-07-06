@@ -1,7 +1,9 @@
 package ro.bogdanmunteanu.currencyconverter.ui.fragments
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,8 +32,6 @@ class CurrenciesFragment : DaggerFragment(){
     private lateinit var rootView: View
     private lateinit var viewModel: CurrenciesViewModel
     private val adapter = CurrenciesAdapter(arrayListOf())
-    var baseCurrencySubject : PublishSubject<String> = PublishSubject.create()
-
 
     companion object {
         const val TAG:String = "CurrenciesFragment"
@@ -64,7 +64,7 @@ class CurrenciesFragment : DaggerFragment(){
         viewModel.fetchState.observe(this,Observer<CurrenciesViewModel.State>{
             when(it) {
                 CurrenciesViewModel.State.DONE->{
-                    viewModel.getLiveCurrencies("EUR")
+                    viewModel.getLiveCurrencies(CurrencyMapper.EUR.title)
                 }
                 CurrenciesViewModel.State.IN_PROGRESS->{
                     connectionImage.setImageResource(R.drawable.ic_wifi)
@@ -87,7 +87,9 @@ class CurrenciesFragment : DaggerFragment(){
                     progress.isIndeterminate = true
                     progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_red_dark),PorterDuff.Mode.SRC_IN)
                     settingsButton.visibility=View.VISIBLE
-
+                    settingsButton.setOnClickListener {
+                        startActivityForResult(Intent(Settings.ACTION_WIRELESS_SETTINGS),0)
+                    }
                 }
                 else-> ""
             }
@@ -95,26 +97,20 @@ class CurrenciesFragment : DaggerFragment(){
 
         viewModel.currencies.observe(this, Observer {
            Log.e(TAG,it.toString())
-
             adapter.updateItems(it)
         })
-
-//        if(viewModel.currencies.value == null) {
-//            //fetch the data
-//            viewModel.getLiveCurrencies("USD")
-//        }else{
-//
-//        }
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //retry api call on result
+        viewModel.getLiveCurrencies(CurrencyMapper.EUR.title)
 
-
+    }
 
     private fun initToolbar() {
         fragment_title.text=getString(R.string.app_name)
         fragment_subtitle.text="Live Currencies"
-
         backIcon.setOnClickListener {
             //show close dialog
         }

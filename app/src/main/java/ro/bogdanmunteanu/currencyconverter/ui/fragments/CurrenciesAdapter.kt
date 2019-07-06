@@ -36,7 +36,7 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         TYPE_BASE_CURRENCY -> BaseCurrencyRowHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.currency_item, parent, false))
+            .inflate(R.layout.base_currency_item, parent, false))
         TYPE_CURRENCY -> CurrencyRowHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.currency_item, parent, false))
         else -> throw IllegalArgumentException()
