@@ -27,9 +27,6 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
     private var mFetchState : MutableLiveData<State> = MutableLiveData()
     val fetchState : LiveData<State> get() = mFetchState
 
-    private var mBaseCurrency : MutableLiveData<String> = MutableLiveData()
-    val baseCurrency : LiveData<String> get() = mBaseCurrency
-
     override fun onCleared() {
         disposables.dispose()
         super.onCleared()

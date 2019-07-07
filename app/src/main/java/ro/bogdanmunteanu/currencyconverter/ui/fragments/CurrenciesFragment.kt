@@ -12,17 +12,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
-import io.reactivex.BackpressureStrategy
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import ro.bogdanmunteanu.currencyconverter.R
-import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
-import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
 import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
 import javax.inject.Inject
+
 
 class CurrenciesFragment : DaggerFragment(){
 
@@ -48,7 +45,7 @@ class CurrenciesFragment : DaggerFragment(){
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel = ViewModelProviders.of(this,factory).get(CurrenciesViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(CurrenciesViewModel::class.java)
 
         initToolbar()
 
@@ -57,9 +54,11 @@ class CurrenciesFragment : DaggerFragment(){
         currenciesRecyclerView.adapter = adapter
         adapter.context = context
         adapter.onItemClick = {
-            viewModel.getLiveCurrencies((it as CurrencyRow).isoCode)
+            adapter.moveItem(it.first,0)
+            viewModel.getLiveCurrencies((it.second as CurrencyRow).isoCode)
+            val llm = currenciesRecyclerView.layoutManager as LinearLayoutManager
+            llm.scrollToPositionWithOffset(0, 0)
         }
-
 
         viewModel.fetchState.observe(this,Observer<CurrenciesViewModel.State>{
             when(it) {
@@ -110,9 +109,6 @@ class CurrenciesFragment : DaggerFragment(){
 
     private fun initToolbar() {
         fragment_title.text=getString(R.string.app_name)
-        fragment_subtitle.text="Live Currencies"
-        backIcon.setOnClickListener {
-            //show close dialog
-        }
+        fragment_subtitle.text=getString(R.string.app_subtitle)
     }
 }

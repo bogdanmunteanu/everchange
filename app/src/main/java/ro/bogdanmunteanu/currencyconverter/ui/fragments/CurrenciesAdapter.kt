@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.currency_item.view.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
@@ -15,13 +17,9 @@ import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
 
 
+class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-
-
-class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    var onItemClick: ((Any) -> Unit)? = null
+    var onItemClick: ((Pair<Int,Any>) -> Unit)? = null
     var context: Context? = null
     var baseRate: Int? = null
 
@@ -35,10 +33,14 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
-        TYPE_BASE_CURRENCY -> BaseCurrencyRowHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.base_currency_item, parent, false))
-        TYPE_CURRENCY -> CurrencyRowHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.currency_item, parent, false))
+        TYPE_BASE_CURRENCY -> BaseCurrencyRowHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.base_currency_item, parent, false)
+        )
+        TYPE_CURRENCY -> CurrencyRowHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.currency_item, parent, false)
+        )
         else -> throw IllegalArgumentException()
     }
 
@@ -57,15 +59,33 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
     private fun onBindCurrency(holder: RecyclerView.ViewHolder, currency: CurrencyRow) {
         val currencyHolder = holder as CurrencyRowHolder
         currencyHolder.bind(currency)
-        //(holder as MessageViewHolder).messageView.text = row.message
+
+    }
+
+    fun moveItem(fromPosition: Int, toPosition: Int) {
+        if (fromPosition == toPosition) return
+
+        val oldCurrencyItem = currencies[fromPosition] as CurrencyRow
+        val newBaseCurrencyItem = BaseCurrencyRow(oldCurrencyItem.isoCode,oldCurrencyItem.name,1.0,oldCurrencyItem.flagUrl)
+        val oldBaseCurrencyItem = currencies[toPosition] as BaseCurrencyRow
+
+        currencies.add(toPosition,newBaseCurrencyItem)
+        currencies.removeAt(toPosition+1)
+        if (fromPosition < toPosition) {
+            this.currencies.add(toPosition - 1, newBaseCurrencyItem)
+
+        } else {
+            this.currencies.add(toPosition, newBaseCurrencyItem )
+        }
+
+        notifyItemMoved(fromPosition, toPosition)
     }
 
     //holders
-    inner class CurrencyRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-    {
+    inner class CurrencyRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
-            itemView.container.setOnClickListener {
-                onItemClick?.invoke(currencies[adapterPosition])
+            itemView.setOnClickListener {
+                onItemClick?.invoke(Pair(adapterPosition,currencies[adapterPosition]))
             }
         }
 
@@ -73,44 +93,44 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
         fun bind(rate: CurrencyRate) {
             itemView.currencyTitle.text = rate.isoCode
             itemView.currencySubtitle.text = rate.name
-            if(baseRate==null) {
+            if (baseRate == null) {
                 itemView.currencyInput.setText(rate.rate.toString())
-            }else
-            {
+            } else {
                 itemView.currencyInput.setText(rate.rate.times(baseRate as Int).toString())
-        }
+            }
             itemView.currencyInput.isEnabled = false
-            itemView.currencyImage.setImageResource(getResId(rate.flagUrl,R.mipmap::class.java))
+            Glide.with(itemView.context)
+                .load(rate.flagUrl)
+                .into(itemView.currencyImage)
         }
 
     }
 
-    inner class BaseCurrencyRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-    {
+    inner class BaseCurrencyRowHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
         fun bind(rate: CurrencyRate) {
             itemView.currencyTitle.text = rate.isoCode
             itemView.currencySubtitle.text = rate.name
-            if(baseRate==null) {
+            if (baseRate == null) {
                 itemView.currencyInput.hint = rate.rate.toString()
-            }else
-            {
+            } else {
                 itemView.currencyInput.setText(baseRate.toString())
             }
-            itemView.currencyInput.addTextChangedListener(object : TextWatcher{
+            Glide.with(itemView.context)
+                .load(rate.flagUrl)
+                .into(itemView.currencyImage)
+            itemView.currencyInput.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    if(s!!.isEmpty())
-                    {
-                        baseRate=null
-                    }else {
+                    if (s!!.isEmpty()) {
+                        baseRate = null
+                    } else {
                         baseRate = s.toString().toInt()
                         itemView.currencyInput.setSelection(s!!.length)
                     }
                 }
             })
-            itemView.currencyImage.setImageResource(getResId(rate.flagUrl,R.mipmap::class.java))
 
         }
     }
@@ -120,28 +140,9 @@ class CurrenciesAdapter(private val currencies:ArrayList<Any>) : RecyclerView.Ad
         private const val TYPE_CURRENCY = 1
     }
 
-    fun updateItems(newRates: List<Any>)
-    {
+    fun updateItems(newRates: List<Any>) {
         currencies.clear()
         currencies.addAll(newRates)
         notifyDataSetChanged()
     }
-
-
-    fun getResId(resName: String, c: Class<*>): Int {
-
-        try {
-            val idField = c.getDeclaredField(resName)
-            return idField.getInt(idField)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return -1
-        }
-
-    }
-
-
-
-
-
 }
