@@ -83,8 +83,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     //test
+    testImplementation group: 'android.arch.core', name: 'core-testing', version: '1.1.1'
     testImplementation "org.mockito:mockito-core:2.19.0"
-    implementation 'org.powermock:powermock-api-easymock:2.0.2'
     testImplementation "io.mockk:mockk:1.9.3"
 }
 

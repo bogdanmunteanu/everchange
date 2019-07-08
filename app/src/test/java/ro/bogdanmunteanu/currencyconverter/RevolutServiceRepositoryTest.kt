@@ -13,20 +13,17 @@ import org.junit.runner.RunWith
 import org.mockito.*
 
 import org.mockito.junit.MockitoJUnitRunner
-import org.powermock.core.classloader.annotations.PrepareForTest
 import ro.bogdanmunteanu.currencyconverter.data.model.Currencies
 
 
 
 @RunWith(MockitoJUnitRunner::class)
-@PrepareForTest(RevolutApiService::class)
 class RevolutServiceRepositoryTest {
 
     @RelaxedMockK
     lateinit var service : RevolutApiService //Mockito.mock(RevolutApiService::class.java)
 
     lateinit var  repository :RevolutServiceRepository
-
 
     @Before
     @Throws(Exception::class)
@@ -37,9 +34,8 @@ class RevolutServiceRepositoryTest {
     }
 
     @Test
-    fun getLiveCurrenciesTest(){
+    fun repositoryServiceTest(){
         val baseCurrency: String = "EUR"
-        val mockCurrencies = mockk<Currencies>(relaxed = true)
         val singleResponse = mockk<Single<List<Any>>>(relaxed = true)
         every {repository.getCurrencies(baseCurrency)} returns singleResponse//.thenReturn(Single.just(repository.mapCurrencies(mockCurrencies)))
         repository.getCurrencies(baseCurrency).test().assertComplete()
