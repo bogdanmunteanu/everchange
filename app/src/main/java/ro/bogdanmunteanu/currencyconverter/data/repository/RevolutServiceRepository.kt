@@ -14,7 +14,7 @@ class RevolutServiceRepository @Inject constructor(private val apiService: Revol
     }
 
 
-    private fun mapCurrencies(currencies: Currencies) : List<Any>
+    fun mapCurrencies(currencies: Currencies) : List<Any>
     {
         var baseCurrency: CurrencyMapper = CurrencyMapper.fromTitle(currencies.base)
         val list = ArrayList<Any>()

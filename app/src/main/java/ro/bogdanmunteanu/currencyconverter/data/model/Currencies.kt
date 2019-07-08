@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Currencies constructor(
+class Currencies constructor(
     val base: String,
     val date: String,
     val rates: CurrencyRates
