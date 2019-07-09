@@ -4,17 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import io.reactivex.subscribers.DisposableSubscriber
 import org.junit.Before
 import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.*
-import org.mockito.ArgumentCaptor.forClass
-import org.mockito.Mockito.anyList
-import org.mockito.Mockito.times
 import org.mockito.junit.MockitoJUnitRunner
+import ro.bogdanmunteanu.currencyconverter.RxImmediateSchedulerRule
 import ro.bogdanmunteanu.currencyconverter.data.di.RevolutApiService
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
@@ -48,9 +45,6 @@ class CurrenciesViewModelTest {
         @JvmField
         val schedulers = RxImmediateSchedulerRule()
     }
-
-
-
 
     @Rule
     @JvmField
