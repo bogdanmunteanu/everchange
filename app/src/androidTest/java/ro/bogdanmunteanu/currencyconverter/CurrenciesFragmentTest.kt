@@ -1,5 +1,6 @@
 package ro.bogdanmunteanu.currencyconverter
 
+import android.service.autofill.Validators.and
 import android.service.autofill.Validators.not
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.ViewAssertion
@@ -37,8 +38,6 @@ class CurrenciesFragmentTest {
         Espresso.onView(withId(R.id.connectionImage)).check(matches(isDisplayed()))
         Espresso.onView(withId(R.id.connectionMessage)).check(matches(isDisplayed()))
         Espresso.onView(withId(R.id.networkInfoLayout)).isGone()
-
-
     }
 
     fun ViewInteraction.isGone() = getViewAssertion(ViewMatchers.Visibility.GONE)

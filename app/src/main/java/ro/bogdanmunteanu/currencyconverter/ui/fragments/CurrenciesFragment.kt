@@ -71,7 +71,7 @@ class CurrenciesFragment : DaggerFragment(){
                     progress.isIndeterminate = true
                     progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_green_dark),PorterDuff.Mode.SRC_IN)
                     settingsButton.visibility=View.GONE
-                    currenciesRecyclerView.visibility=View.VISIBLE
+                    //currenciesRecyclerView.visibility=View.VISIBLE
                 }
                 CurrenciesViewModel.State.ERROR -> {
                     connectionImage.setImageResource(R.drawable.ic_no_wifi)
@@ -99,6 +99,8 @@ class CurrenciesFragment : DaggerFragment(){
 
         viewModel.currencies.observe(this, Observer {
            Log.e(TAG,it.toString())
+            currenciesRecyclerView.visibility=View.VISIBLE
+            loading.visibility=View.GONE
             adapter.updateItems(it)
         })
     }

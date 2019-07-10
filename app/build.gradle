@@ -50,8 +50,17 @@ android {
         experimental = true
     }
 
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
     applicationVariants.all { variant ->
         customApkName(variant)
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -119,6 +128,9 @@ dependencies {
 
     //reflection
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    //shimmer layout
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
 
     //test
     testImplementation group: 'android.arch.core', name: 'core-testing', version: '1.1.1'
