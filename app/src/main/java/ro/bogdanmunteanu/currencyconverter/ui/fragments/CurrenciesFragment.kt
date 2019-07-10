@@ -71,6 +71,7 @@ class CurrenciesFragment : DaggerFragment(){
                     progress.isIndeterminate = true
                     progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_green_dark),PorterDuff.Mode.SRC_IN)
                     settingsButton.visibility=View.GONE
+                    currenciesRecyclerView.visibility=View.VISIBLE
                 }
                 CurrenciesViewModel.State.ERROR -> {
                     connectionImage.setImageResource(R.drawable.ic_no_wifi)
@@ -79,6 +80,7 @@ class CurrenciesFragment : DaggerFragment(){
                     progress.progress=50
                     progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_red_dark),PorterDuff.Mode.SRC_IN)
                     settingsButton.visibility=View.GONE
+                    currenciesRecyclerView.visibility=View.VISIBLE
                 }
                 CurrenciesViewModel.State.OFFLINE -> {
                     connectionImage.setImageResource(R.drawable.ic_no_wifi)
@@ -86,6 +88,7 @@ class CurrenciesFragment : DaggerFragment(){
                     progress.isIndeterminate = true
                     progress.indeterminateDrawable.setColorFilter(resources.getColor(android.R.color.holo_red_dark),PorterDuff.Mode.SRC_IN)
                     settingsButton.visibility=View.VISIBLE
+                    currenciesRecyclerView.visibility=View.INVISIBLE
                     settingsButton.setOnClickListener {
                         startActivityForResult(Intent(Settings.ACTION_WIRELESS_SETTINGS),0)
                     }
