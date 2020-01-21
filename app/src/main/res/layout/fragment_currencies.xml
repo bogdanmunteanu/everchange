@@ -1,234 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.activities.MainActivity">
+        xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
 
-    <androidx.cardview.widget.CardView
-            android:id="@+id/navBar"
+android:id="@+id/container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ui.activities.MainActivity">
+
+<androidx.cardview.widget.CardView
+        android:id="@+id/navBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/currenciesLayout"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintVertical_bias="0"
+        android:elevation="8dp">
+
+    <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/currenciesLayout"
-            app:layout_constrainedHeight="true"
-            app:layout_constraintVertical_bias="0"
-            android:elevation="8dp">
-
-        <RelativeLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@android:color/white">
-
-
-            <TextView
-                    android:text="Test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@android:color/background_dark"
-                    android:layout_marginTop="8dp"
-                    android:textSize="16sp"
-                    android:id="@+id/fragment_title"/>
-
-            <TextView
-                    android:text="Test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/fragment_title"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="5dp"
-                    android:textSize="13sp"
-                    android:id="@+id/fragment_subtitle"/>
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <FrameLayout
-            android:id="@+id/currenciesLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/navBar"
-            app:layout_constraintBottom_toTopOf="@id/progress"
-            app:layout_constrainedHeight="true"
             android:background="@android:color/white">
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/currenciesRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:itemCount="7"
-                tools:listitem="@layout/currency_item"
-                android:visibility="gone"/>
-
-        <io.supercharge.shimmerlayout.ShimmerLayout
-                android:id="@+id/loading"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:shimmer_animation_duration="900"
-                app:shimmer_auto_start="true"
-                android:visibility="visible">
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:text="ShimmerLayout"
-                        android:background="@color/cardview_light_background"
-                        android:textColor="@color/cardview_light_background"
-                        android:textSize="26sp"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="ShimmerLayout"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@color/cardview_light_background"
-                        android:textColor="@color/cardview_light_background"
-                        android:textSize="20sp"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="ShimmerLayout"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@color/cardview_light_background"
-                        android:textColor="@color/cardview_light_background"
-                        android:textSize="20sp"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="ShimmerLayout"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@color/cardview_light_background"
-                        android:textColor="@color/cardview_light_background"
-                        android:textSize="20sp"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="ShimmerLayout"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@color/cardview_light_background"
-                        android:textColor="@color/cardview_light_background"
-                        android:textSize="20sp"/>
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="ShimmerLayout"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@color/cardview_light_background"
-                        android:textColor="@color/cardview_light_background"
-                        android:textSize="20sp"/>
-
-            </LinearLayout>
-        </io.supercharge.shimmerlayout.ShimmerLayout>
-
-
-
-    </FrameLayout>
-
-
-
-
-    <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:indeterminate="true"
-            style="?android:attr/progressBarStyleHorizontal"
-            app:layout_constraintTop_toBottomOf="@id/currenciesLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/networkInfoLayout"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/networkInfoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            app:layout_constraintTop_toBottomOf="@id/progress"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-
-        <ImageView
-                android:id="@+id/connectionImage"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                app:srcCompat="@drawable/ic_wifi"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="16dp"
-                app:layout_constrainedWidth="true"
-                app:layout_constrainedHeight="true"
-                app:layout_constraintVertical_bias="0.5"/>
 
         <TextView
-                android:text="No internet connection. Press settings button to connect to the Internet"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:lines="3"
-                android:id="@+id/connectionMessage"
-                app:layout_constraintStart_toEndOf="@+id/connectionImage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:textSize="15sp"
-                android:textColor="@android:color/background_dark"
-                app:layout_constraintEnd_toStartOf="@+id/settingsButton"
-                app:layout_constrainedHeight="true"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintVertical_bias="0.5"/>
-
-
-        <Button
+                android:text="Test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:id="@+id/settingsButton"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constrainedHeight="true"
-                app:layout_constraintVertical_bias="0.5"
-                app:layout_constraintHorizontal_bias="0.9"/>
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:textColor="@android:color/background_dark"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:id="@+id/fragment_title"/>
+
+        <TextView
+                android:text="Test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fragment_title"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginTop="5dp"
+                android:textSize="13sp"
+                android:id="@+id/fragment_subtitle"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+
+<FrameLayout
+        android:id="@+id/currenciesLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/navBar"
+        app:layout_constraintBottom_toTopOf="@id/progress"
+        app:layout_constrainedHeight="true"
+        android:background="@android:color/white">
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/currenciesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="7"
+            tools:listitem="@layout/currency_item"
+            android:visibility="gone"/>
+
+    <io.supercharge.shimmerlayout.ShimmerLayout
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_animation_duration="900"
+            app:shimmer_auto_start="true"
+            android:visibility="visible">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="ShimmerLayout"
+                    android:background="@color/cardview_light_background"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="26sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="ShimmerLayout"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/cardview_light_background"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="20sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ShimmerLayout"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/cardview_light_background"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="20sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ShimmerLayout"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/cardview_light_background"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="20sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ShimmerLayout"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/cardview_light_background"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="20sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ShimmerLayout"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/cardview_light_background"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="20sp"/>
+
+        </LinearLayout>
+    </io.supercharge.shimmerlayout.ShimmerLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
+
+
+<ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleHorizontal"
+        app:layout_constraintTop_toBottomOf="@id/currenciesLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/networkInfoLayout"/>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/networkInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintTop_toBottomOf="@id/progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+    <ImageView
+            android:id="@+id/connectionImage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            app:srcCompat="@drawable/ic_wifi"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constrainedWidth="true"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintVertical_bias="0.5"/>
+
+    <TextView
+            android:text="No internet connection. Press settings button to connect to the Internet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:lines="3"
+            android:id="@+id/connectionMessage"
+            app:layout_constraintStart_toEndOf="@+id/connectionImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="15sp"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+            app:layout_constrainedHeight="true"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintVertical_bias="0.5"/>
+
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/settingsButton"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.9"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

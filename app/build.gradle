@@ -62,6 +62,10 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 versioning {
@@ -141,6 +145,8 @@ dependencies {
 kapt {
     generateStubs = true
 }
+
+
 
 def customApkName(variant) {
     variant.outputs.all { output ->

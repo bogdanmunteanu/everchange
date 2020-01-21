@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
-
+import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
-import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -19,6 +19,7 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
     private val TAG = CurrenciesViewModel::class.java.simpleName
 
     private var disposables = CurrencyDisposable()
+    private var input: String? = null
 
 
     private var mCurrencies : MutableLiveData<List<Any>> = MutableLiveData()
@@ -27,6 +28,8 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
     private var mFetchState : MutableLiveData<State> = MutableLiveData()
     val fetchState : LiveData<State> get() = mFetchState
 
+
+
     override fun onCleared() {
         disposables.dispose()
         super.onCleared()
@@ -34,6 +37,10 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
 
     init {
         mFetchState.value = State.DONE
+    }
+
+    fun setInput( i : String){
+        input = i
     }
 
     fun getLiveCurrencies(baseCurrency:String)
@@ -46,6 +53,18 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
             .delay(1,TimeUnit.SECONDS)
             .repeat()
             .subscribe({ rates : List<Any>->
+                rates.forEach {rate->
+                    if(rate is CurrencyRow )
+                    {
+                        input?.let {
+                            if(it.isNotEmpty()){
+                                rate.rate = rate.rate.times(it.toBigDecimal())
+                            }else{
+                                rate.rate = rate.rate.times(BigDecimal.ONE)
+                            }
+                        }
+                    }
+                }
                 mCurrencies.postValue(rates)
             },{
                     error->if(error is OfflineException){

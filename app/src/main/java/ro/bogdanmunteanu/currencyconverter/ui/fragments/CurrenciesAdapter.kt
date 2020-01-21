@@ -4,24 +4,27 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.currency_item.view.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
 class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onItemClick: ((Pair<Int,Any>) -> Unit)? = null
     var context: Context? = null
-    var baseRate: Int? = null
+    var inputSubject: PublishSubject<String> = PublishSubject.create<String>()
+
 
     override fun getItemCount() = currencies.count()
 
@@ -66,8 +69,8 @@ class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.A
         if (fromPosition == toPosition) return
 
         val oldCurrencyItem = currencies[fromPosition] as CurrencyRow
-        val newBaseCurrencyItem = BaseCurrencyRow(oldCurrencyItem.isoCode,oldCurrencyItem.name,1.0,oldCurrencyItem.flagUrl)
-        val oldBaseCurrencyItem = currencies[toPosition] as BaseCurrencyRow
+        val newBaseCurrencyItem = BaseCurrencyRow(oldCurrencyItem.isoCode,oldCurrencyItem.name, oldCurrencyItem.rate,oldCurrencyItem.flagUrl)
+        //val oldBaseCurrencyItem = currencies[toPosition] as BaseCurrencyRow
 
         currencies.add(toPosition,newBaseCurrencyItem)
         currencies.removeAt(toPosition+1)
@@ -93,11 +96,7 @@ class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.A
         fun bind(rate: CurrencyRate) {
             itemView.currencyTitle.text = rate.isoCode
             itemView.currencySubtitle.text = rate.name
-            if (baseRate == null) {
-                itemView.currencyInput.setText(rate.rate.toString())
-            } else {
-                itemView.currencyInput.setText(rate.rate.times(baseRate as Int).toString())
-            }
+            itemView.currencyInput.setText(rate.rate.setScale(2,RoundingMode.HALF_EVEN).toString())
             itemView.currencyInput.isEnabled = false
             Glide.with(itemView.context)
                 .load(rate.flagUrl)
@@ -111,23 +110,18 @@ class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.A
         fun bind(rate: CurrencyRate) {
             itemView.currencyTitle.text = rate.isoCode
             itemView.currencySubtitle.text = rate.name
-            if (baseRate == null) {
-                itemView.currencyInput.hint = rate.rate.toString()
-            } else {
-                itemView.currencyInput.setText(baseRate.toString())
-            }
+            itemView.currencyInput.hint = rate.rate.toString()
             Glide.with(itemView.context)
                 .load(rate.flagUrl)
                 .into(itemView.currencyImage)
+
+
             itemView.currencyInput.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    if (s!!.isEmpty()) {
-                        baseRate = null
-                    } else {
-                        baseRate = s.toString().toInt()
-                        itemView.currencyInput.setSelection(s!!.length)
+                    s?.toString()?.let {
+                        inputSubject.onNext(it)
                     }
                 }
             })

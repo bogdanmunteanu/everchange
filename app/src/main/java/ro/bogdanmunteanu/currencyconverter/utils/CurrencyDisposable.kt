@@ -15,13 +15,13 @@ class CurrencyDisposable {
         compositeDisposable?.add(disposable)
     }
 
+
     fun dispose() {
         compositeDisposable?.dispose()
         compositeDisposable = null
     }
 
-    fun clear()
-    {
+    fun clear() {
         compositeDisposable?.clear()
     }
 
