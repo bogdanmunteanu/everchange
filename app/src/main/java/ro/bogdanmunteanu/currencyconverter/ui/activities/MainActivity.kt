@@ -3,19 +3,38 @@ package ro.bogdanmunteanu.currencyconverter.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.view.MenuItem
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.navigation.NavigationView
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import ro.bogdanmunteanu.currencyconverter.R
+import ro.bogdanmunteanu.currencyconverter.ui.UiUtils
 import ro.bogdanmunteanu.currencyconverter.ui.fragments.CurrenciesFragment
 
-class MainActivity : DaggerAppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        drawerLayout.setViewScale(Gravity.START, 0.9f)
+        drawerLayout.setViewElevation(Gravity.START, 20f)
+
+        leftSideView.setNavigationItemSelectedListener(this)
         showCurrenciesFragment()
+
+        btnConverter.setOnClickListener {
+            showCurrenciesFragment()
+        }
+    }
+
+    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        return true //this needed implementation , not used because of custom menu
     }
 
     private fun showCurrenciesFragment() {
@@ -43,5 +62,15 @@ class MainActivity : DaggerAppCompatActivity() {
         val fragmentTransaction = beginTransaction()
         fragmentTransaction.func()
         fragmentTransaction.commit()
+    }
+
+
+    fun openDrawer() {
+        UiUtils.hideKeyboard(this)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
     }
 }

@@ -3,6 +3,7 @@ package ro.bogdanmunteanu.currencyconverter.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrencyRow
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRate
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
+import ro.bogdanmunteanu.currencyconverter.utils.DecimalDigitsInputFilter
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -69,18 +71,9 @@ class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.A
         if (fromPosition == toPosition) return
 
         val oldCurrencyItem = currencies[fromPosition] as CurrencyRow
-        val newBaseCurrencyItem = BaseCurrencyRow(oldCurrencyItem.isoCode,oldCurrencyItem.name, oldCurrencyItem.rate,oldCurrencyItem.flagUrl)
-        //val oldBaseCurrencyItem = currencies[toPosition] as BaseCurrencyRow
-
-        currencies.add(toPosition,newBaseCurrencyItem)
-        currencies.removeAt(toPosition+1)
-        if (fromPosition < toPosition) {
-            this.currencies.add(toPosition - 1, newBaseCurrencyItem)
-
-        } else {
-            this.currencies.add(toPosition, newBaseCurrencyItem )
-        }
-
+        val newBaseCurrencyItem = BaseCurrencyRow(oldCurrencyItem.isoCode,oldCurrencyItem.name, BigDecimal.ONE,oldCurrencyItem.flagUrl)
+        currencies.add(toPosition, newBaseCurrencyItem)
+        currencies.removeAt(fromPosition)
         notifyItemMoved(fromPosition, toPosition)
     }
 
@@ -111,6 +104,8 @@ class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.A
             itemView.currencyTitle.text = rate.isoCode
             itemView.currencySubtitle.text = rate.name
             itemView.currencyInput.hint = rate.rate.toString()
+            itemView.currencyInput.text = ""
+            itemView.currencyInput.requestFocus()
             Glide.with(itemView.context)
                 .load(rate.flagUrl)
                 .into(itemView.currencyImage)
@@ -120,12 +115,12 @@ class CurrenciesAdapter(private val currencies: ArrayList<Any>) : RecyclerView.A
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
+                    s?.filters = arrayOf(DecimalDigitsInputFilter(10,2))
                     s?.toString()?.let {
                         inputSubject.onNext(it)
                     }
                 }
             })
-
         }
     }
 

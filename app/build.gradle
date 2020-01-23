@@ -140,6 +140,9 @@ dependencies {
     testImplementation group: 'android.arch.core', name: 'core-testing', version: '1.1.1'
     testImplementation "org.mockito:mockito-core:2.19.0"
     testImplementation "io.mockk:mockk:1.9.3"
+
+    //drawer
+    implementation 'com.infideap.drawerbehavior:drawer-behavior:0.2.2'
 }
 
 kapt {

@@ -8,19 +8,24 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
 import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
+import ro.bogdanmunteanu.currencyconverter.ui.UiUtils
+import ro.bogdanmunteanu.currencyconverter.ui.activities.MainActivity
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -60,13 +65,13 @@ class CurrenciesFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this, factory).get(CurrenciesViewModel::class.java)
-        initToolbar()
 
         val layoutManager = LinearLayoutManager(context)
         currenciesRecyclerView.layoutManager = layoutManager
         currenciesRecyclerView.adapter = adapter
         adapter.context = context
         adapter.onItemClick = {
+            viewModel.setInput(BigDecimal.ONE.toString())
             adapter.moveItem(it.first, 0)
             viewModel.getLiveCurrencies((it.second as CurrencyRow).isoCode)
             val llm = currenciesRecyclerView.layoutManager as LinearLayoutManager
@@ -133,7 +138,13 @@ class CurrenciesFragment : DaggerFragment() {
             loading.visibility = View.GONE
             adapter.updateItems(it)
         })
+
+        menuLayout.setOnClickListener {
+            (activity as? MainActivity)?.openDrawer()
+        }
     }
+
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -142,8 +153,9 @@ class CurrenciesFragment : DaggerFragment() {
 
     }
 
-    private fun initToolbar() {
-        fragment_title.text = getString(R.string.app_name)
-        fragment_subtitle.text = getString(R.string.app_subtitle)
-    }
+
+//    private fun initToolbar() {
+//        fragment_title.text = getString(R.string.app_name)
+//        fragment_subtitle.text = getString(R.string.app_subtitle)
+//    }
 }
