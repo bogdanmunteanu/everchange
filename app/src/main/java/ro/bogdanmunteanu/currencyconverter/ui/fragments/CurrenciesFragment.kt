@@ -8,36 +8,35 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import ro.bogdanmunteanu.currencyconverter.R
-import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
 import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
-import ro.bogdanmunteanu.currencyconverter.ui.UiUtils
 import ro.bogdanmunteanu.currencyconverter.ui.activities.MainActivity
+import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrenciesAdapter
+import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
+import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyTypeFactoryImpl
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
-import java.math.BigDecimal
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-class CurrenciesFragment : DaggerFragment() {
+class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
 
     @Inject
     lateinit var factory: ViewModelFactory
 
     private lateinit var rootView: View
     private lateinit var viewModel: CurrenciesViewModel
-    private val adapter = CurrenciesAdapter(arrayListOf())
+    private val adapter =
+        CurrenciesAdapter(
+            arrayListOf()
+        ,typeFactory = CurrencyTypeFactoryImpl(),clickListener = this)
     private var disposables = CurrencyDisposable()
 
 
@@ -63,29 +62,38 @@ class CurrenciesFragment : DaggerFragment() {
         super.onDestroyView()
     }
 
+    override fun onItemClick(item: CurrencyAbstractModel) {
+       Log.e("position:: ",item.toString())
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this, factory).get(CurrenciesViewModel::class.java)
 
         val layoutManager = LinearLayoutManager(context)
         currenciesRecyclerView.layoutManager = layoutManager
         currenciesRecyclerView.adapter = adapter
-        adapter.context = context
-        adapter.onItemClick = {
-            viewModel.setInput(BigDecimal.ONE.toString())
-            adapter.moveItem(it.first, 0)
-            viewModel.getLiveCurrencies((it.second as CurrencyRow).isoCode)
-            val llm = currenciesRecyclerView.layoutManager as LinearLayoutManager
-            llm.scrollToPositionWithOffset(0, 0)
-        }
+//        adapter.context = context
+//        adapter.onItemClick = {
+//            viewModel.setInput(BigDecimal.ONE.toString())
+//            adapter.moveItem(it.first, 0)
+//            viewModel.getLiveCurrencies((it.second as Currency).isoCode)
+//            val llm = currenciesRecyclerView.layoutManager as LinearLayoutManager
+//            llm.scrollToPositionWithOffset(0, 0)
+//        }
 
-        disposables.add(
-            adapter.inputSubject.subscribeOn(Schedulers.io()).observeOn(
-                AndroidSchedulers.mainThread()
-            ).debounce(100,TimeUnit.MILLISECONDS).subscribe { input ->
-                input?.let {
-                    viewModel.setInput(it)
-                }
-            })
+
+
+
+
+
+//        disposables.add(
+//            adapter.inputSubject.subscribeOn(Schedulers.io()).observeOn(
+//                AndroidSchedulers.mainThread()
+//            ).debounce(100,TimeUnit.MILLISECONDS).subscribe { input ->
+//                input?.let {
+//                    viewModel.setInput(it)
+//                }
+//            })
 
         viewModel.fetchState.observe(this, Observer<CurrenciesViewModel.State> {
             when (it) {

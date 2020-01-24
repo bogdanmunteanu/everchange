@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
-import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyRow
+import ro.bogdanmunteanu.currencyconverter.data.model.Currency
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import java.math.BigDecimal
@@ -22,8 +24,8 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
     private var input: String? = null
 
 
-    private var mCurrencies : MutableLiveData<List<Any>> = MutableLiveData()
-    val currencies : LiveData<List<Any>> get() = mCurrencies
+    private var mCurrencies : MutableLiveData<List<CurrencyAbstractModel>> = MutableLiveData()
+    val currencies : LiveData<List<CurrencyAbstractModel>> get() = mCurrencies
 
     private var mFetchState : MutableLiveData<State> = MutableLiveData()
     val fetchState : LiveData<State> get() = mFetchState
@@ -52,20 +54,22 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
             .observeOn(AndroidSchedulers.mainThread())
             .delay(1,TimeUnit.SECONDS)
             .repeat()
-            .subscribe({ rates : List<Any>->
-                rates.forEach {rate->
-                    if(rate is CurrencyRow )
+            .subscribe({ models ->
+                models.forEach {model->
+                    if(model is CurrencyModel )
                     {
                         input?.let {
                             if(it.isNotEmpty()){
-                                rate.rate = rate.rate.times(it.toBigDecimal())
+
+
+                                model.currency.rate = model.currency.rate.times(it.toBigDecimal())
                             }else{
-                                rate.rate = rate.rate.times(BigDecimal.ONE)
+                                model.currency.rate = model.currency.rate.times(BigDecimal.ONE)
                             }
                         }
                     }
                 }
-                mCurrencies.postValue(rates)
+                mCurrencies.postValue(models)
             },{
                     error->if(error is OfflineException){
                 mFetchState.postValue(State.OFFLINE)
