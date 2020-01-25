@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import ro.bogdanmunteanu.currencyconverter.R
+import ro.bogdanmunteanu.currencyconverter.data.model.Currency
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
 import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.ui.activities.MainActivity
@@ -23,6 +26,7 @@ import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyTypeFactoryImpl
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
+import java.math.BigDecimal
 import javax.inject.Inject
 
 
@@ -62,28 +66,20 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
         super.onDestroyView()
     }
 
-    override fun onItemClick(item: CurrencyAbstractModel) {
-       Log.e("position:: ",item.toString())
+    override fun onItemClick(position: Int,item : CurrencyAbstractModel) {
+        viewModel.setInput(BigDecimal.ONE.toString())
+        adapter.moveItem(position, 0)
+        currenciesRecyclerView.recycledViewPool.clear()
+        viewModel.getLiveCurrencies((item as CurrencyModel).currency.isoCode)
+        val llm = currenciesRecyclerView.layoutManager as LinearLayoutManager
+        llm.scrollToPositionWithOffset(0, 0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this, factory).get(CurrenciesViewModel::class.java)
-
         val layoutManager = LinearLayoutManager(context)
         currenciesRecyclerView.layoutManager = layoutManager
         currenciesRecyclerView.adapter = adapter
-//        adapter.context = context
-//        adapter.onItemClick = {
-//            viewModel.setInput(BigDecimal.ONE.toString())
-//            adapter.moveItem(it.first, 0)
-//            viewModel.getLiveCurrencies((it.second as Currency).isoCode)
-//            val llm = currenciesRecyclerView.layoutManager as LinearLayoutManager
-//            llm.scrollToPositionWithOffset(0, 0)
-//        }
-
-
-
-
 
 
 //        disposables.add(

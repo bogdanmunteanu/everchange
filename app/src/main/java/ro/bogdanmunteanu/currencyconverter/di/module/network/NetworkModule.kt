@@ -99,6 +99,7 @@ class NetworkModule {
             if (networkInfo.isNetworkAvailable()) {
                 chain.proceed(chain.request())
             } else {
+                //TODO:: handle E/CurrenciesViewModel: java.net.SocketTimeoutException: timeout
                 throw OfflineException()
             }
         }

@@ -7,4 +7,10 @@ class BaseCurrencyModel (val baseCurrency: BaseCurrency) : CurrencyAbstractModel
     override fun type(typeFactory: CurrencyTypeFactory): Int {
         return typeFactory.type(baseCurrency)
     }
+
+    override fun toString(): String {
+        return "BaseCurrencyModel(baseCurrency=$baseCurrency)"
+    }
+
+
 }
