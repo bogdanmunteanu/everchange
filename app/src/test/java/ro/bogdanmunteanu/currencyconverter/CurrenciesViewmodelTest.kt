@@ -13,6 +13,7 @@ import org.mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 import ro.bogdanmunteanu.currencyconverter.RxImmediateSchedulerRule
 import ro.bogdanmunteanu.currencyconverter.data.di.RevolutApiService
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
@@ -68,7 +69,7 @@ class CurrenciesViewModelTest {
         viewModel.fetchState.observeForever(stateOberver)
         every { viewModel.getLiveCurrencies(baseCurrency)} just Runs
         io.mockk.verify(exactly = 1) { viewModel.getLiveCurrencies(baseCurrency) }
-        io.mockk.verify{currenciesObserver.onChanged(ArgumentMatchers.anyList())}
+        io.mockk.verify{currenciesObserver.onChanged(listOf(CurrencyAbstractModel::class.java))}
     }
 
 

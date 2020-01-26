@@ -14,7 +14,7 @@ import org.mockito.*
 
 import org.mockito.junit.MockitoJUnitRunner
 import ro.bogdanmunteanu.currencyconverter.data.model.Currencies
-
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 
 
 @RunWith(MockitoJUnitRunner::class)
@@ -36,7 +36,7 @@ class RevolutServiceRepositoryTest {
     @Test
     fun repositoryServiceTest(){
         val baseCurrency: String = "EUR"
-        val singleResponse = mockk<Single<List<Any>>>(relaxed = true)
+        val singleResponse = mockk<Single<List<CurrencyAbstractModel>>>(relaxed = true)
         every {repository.getCurrencies(baseCurrency)} returns singleResponse//.thenReturn(Single.just(repository.mapCurrencies(mockCurrencies)))
         repository.getCurrencies(baseCurrency).test().assertComplete()
         io.mockk.verify(exactly = 1) { service.getCurrencies(baseCurrency) }

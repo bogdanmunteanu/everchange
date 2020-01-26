@@ -10,13 +10,11 @@ import ro.bogdanmunteanu.currencyconverter.ui.fragments.CurrenciesFragment
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
 
 @Module
-internal abstract class CurrenciesFragmentModule {
+internal abstract class ViewModelModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(CurrenciesViewModel::class)
     abstract fun bindCurrenciesViewModel(viewModel: CurrenciesViewModel): ViewModel
 
-    @ContributesAndroidInjector
-    abstract fun contributeCurrenciesFragment() : CurrenciesFragment
 }

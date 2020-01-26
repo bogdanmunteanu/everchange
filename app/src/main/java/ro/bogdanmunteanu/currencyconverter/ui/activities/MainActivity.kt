@@ -18,7 +18,10 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.ui.UiUtils
+import ro.bogdanmunteanu.currencyconverter.ui.fragments.AboutFragment
 import ro.bogdanmunteanu.currencyconverter.ui.fragments.CurrenciesFragment
+import ro.bogdanmunteanu.currencyconverter.ui.fragments.PrivacyFragment
+import ro.bogdanmunteanu.currencyconverter.ui.fragments.TermsFragment
 import java.lang.StringBuilder
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -37,6 +40,17 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         btnConverter.setOnClickListener {
             showCurrenciesFragment()
         }
+
+        btnAbout.setOnClickListener {
+            showAboutFragment()
+        }
+        btnTermsAndConditions.setOnClickListener {
+            showTermsFragment()
+        }
+
+        btnPrivacyPolicy.setOnClickListener {
+            showPrivacyFragment()
+        }
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -48,6 +62,42 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
             addFragment(CurrenciesFragment().newInstance() as Fragment, R.id.frame)
         } else {
             replaceFragment(supportFragmentManager.findFragmentByTag(CurrenciesFragment.TAG) as Fragment, R.id.frame)
+        }
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+    }
+
+    private fun showAboutFragment() {
+        if (supportFragmentManager.findFragmentByTag(AboutFragment.TAG) == null) {
+            addFragment(AboutFragment().newInstance() as Fragment, R.id.frame)
+        } else {
+            replaceFragment(supportFragmentManager.findFragmentByTag(AboutFragment.TAG) as Fragment, R.id.frame)
+        }
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+    }
+
+    private fun showTermsFragment() {
+        if (supportFragmentManager.findFragmentByTag(TermsFragment.TAG) == null) {
+            addFragment(TermsFragment().newInstance() as Fragment, R.id.frame)
+        } else {
+            replaceFragment(supportFragmentManager.findFragmentByTag(TermsFragment.TAG) as Fragment, R.id.frame)
+        }
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
+    }
+
+    private fun showPrivacyFragment() {
+        if (supportFragmentManager.findFragmentByTag(PrivacyFragment.TAG) == null) {
+            addFragment(PrivacyFragment().newInstance() as Fragment, R.id.frame)
+        } else {
+            replaceFragment(supportFragmentManager.findFragmentByTag(PrivacyFragment.TAG) as Fragment, R.id.frame)
+        }
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         }
     }
 
