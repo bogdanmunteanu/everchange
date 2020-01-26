@@ -39,3 +39,4 @@ class CurrencyRates constructor(
     val USD:Double,
     val ZAR:Double) :Parcelable
 
+//{"base":"EUR","date":"2018-09-06","rates":{"AUD":1.6214,"BGN":1.9618,"BRL":4.8066,"CAD":1.5385,"CHF":1.131,"CNY":7.9696,"CZK":25.794,"DKK":7.4797,"GBP":0.90101,"HKD":9.1606,"HRK":7.457,"HUF":327.5,"IDR":17377.0,"ILS":4.1835,"INR":83.976,"ISK":128.19,"JPY":129.95,"KRW":1308.8,"MXN":22.434,"MYR":4.8268,"NOK":9.8062,"NZD":1.7687,"PHP":62.785,"PLN":4.3316,"RON":4.6528,"RUB":79.82,"SEK":10.623,"SGD":1.6049,"THB":38.248,"TRY":7.6517,"USD":1.167,"ZAR":17.878}}

@@ -11,12 +11,13 @@ import ro.bogdanmunteanu.currencyconverter.data.model.Currency
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
+import ro.bogdanmunteanu.currencyconverter.persistence.CurrencyRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CurrenciesViewModel @Inject constructor(val service: RevolutServiceRepository): ViewModel() {
+class CurrenciesViewModel @Inject constructor(val service: RevolutServiceRepository,val cache:CurrencyRepository): ViewModel() {
 
     private val TAG = CurrenciesViewModel::class.java.simpleName
 

@@ -6,12 +6,13 @@ import ro.bogdanmunteanu.currencyconverter.data.model.*
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
+import ro.bogdanmunteanu.currencyconverter.persistence.CurrencyRepository
 import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class RevolutServiceRepository @Inject constructor(private val apiService: RevolutApiService){
+class RevolutServiceRepository @Inject constructor(private val apiService: RevolutApiService,private val cache: CurrencyRepository){
 
     fun getCurrencies(baseCurrency:String) : Single<List<CurrencyAbstractModel>> {
         return apiService.getCurrencies(baseCurrency).map { t: Currencies -> mapCurrencies(t) }
@@ -26,10 +27,12 @@ class RevolutServiceRepository @Inject constructor(private val apiService: Revol
         list.add(BaseCurrencyModel(BaseCurrency(baseCurrency.title,baseCurrency.subtitle, BigDecimal(1.00),baseCurrency.flagURL)))
         if(BigDecimal(currencies.rates.EUR) != BigDecimal.ZERO)
         {
+            cache.insert(Currency(CurrencyMapper.EUR.title,CurrencyMapper.EUR.subtitle,BigDecimal(currencies.rates.EUR),CurrencyMapper.EUR.flagURL))
             list.add(CurrencyModel(Currency(CurrencyMapper.EUR.title,CurrencyMapper.EUR.subtitle,BigDecimal(currencies.rates.EUR),CurrencyMapper.EUR.flagURL)))
         }
         if(BigDecimal(currencies.rates.AUD) != BigDecimal.ZERO)
         {
+            cache.insert(Currency(CurrencyMapper.AUD.title,CurrencyMapper.AUD.subtitle,BigDecimal(currencies.rates.AUD),CurrencyMapper.AUD.flagURL))
             list.add(CurrencyModel(Currency(CurrencyMapper.AUD.title,CurrencyMapper.AUD.subtitle,BigDecimal(currencies.rates.AUD),CurrencyMapper.AUD.flagURL)))
         }
         if(BigDecimal(currencies.rates.BGN) != BigDecimal.ZERO)
