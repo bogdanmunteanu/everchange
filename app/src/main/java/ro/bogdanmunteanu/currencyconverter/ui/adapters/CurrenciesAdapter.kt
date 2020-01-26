@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package ro.bogdanmunteanu.currencyconverter.ui.adapters
 
 import android.view.LayoutInflater
@@ -16,7 +14,8 @@ import java.math.BigDecimal
 class CurrenciesAdapter(
     private val currencies: ArrayList<CurrencyAbstractModel>,
     private val typeFactory: CurrencyTypeFactory,
-    private val clickListener: CurrencyClickListener
+    private val clickListener: CurrencyClickListener,
+    private val inputListener: BaseCurrencyInputListener
 ) : RecyclerView.Adapter<AbstractCurrencyViewHolder<CurrencyAbstractModel>>() {
 
     override fun onCreateViewHolder(
@@ -30,7 +29,7 @@ class CurrenciesAdapter(
     override fun getItemCount(): Int = currencies.count()
 
     override fun onBindViewHolder(holder: AbstractCurrencyViewHolder<CurrencyAbstractModel>, position: Int) {
-        holder.bind(currencies[position],clickListener,position)
+        holder.bind(currencies[position],clickListener,position,inputListener)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -45,10 +44,13 @@ class CurrenciesAdapter(
 
     fun moveItem(fromPosition: Int, toPosition: Int) {
         if (fromPosition == toPosition) return
-        val oldCurrencyItem = currencies[fromPosition] as CurrencyModel
-        val newBaseCurrencyItem = BaseCurrencyModel(BaseCurrency( oldCurrencyItem.currency.isoCode,oldCurrencyItem.currency.name, BigDecimal.ONE,oldCurrencyItem.currency.flagUrl))
-        currencies.add(toPosition, newBaseCurrencyItem)
-        currencies.removeAt(fromPosition)
-        notifyItemMoved(fromPosition, toPosition)
+        val oldCurrencyItem = currencies[fromPosition] as? CurrencyModel
+        oldCurrencyItem?.let {
+            val newBaseCurrencyItem = BaseCurrencyModel(BaseCurrency( oldCurrencyItem.currency.isoCode,oldCurrencyItem.currency.name, BigDecimal.ONE,oldCurrencyItem.currency.flagUrl))
+            currencies.add(toPosition, newBaseCurrencyItem)
+            currencies.removeAt(fromPosition)
+            notifyItemMoved(fromPosition, toPosition)
+        }
+
     }
 }

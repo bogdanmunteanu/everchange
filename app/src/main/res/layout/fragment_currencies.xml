@@ -10,6 +10,16 @@
             android:background="@color/blue"
             tools:context=".ui.activities.MainActivity">
 
+        <ImageView
+                android:id="@+id/ivAppIcon"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:padding="8dp"
+                android:layout_margin="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_converter_icon" />
+
         <RelativeLayout
                 android:id="@+id/menuLayout"
                 android:layout_width="44dp"
@@ -19,12 +29,12 @@
                 app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.05">
+                app:layout_constraintVertical_bias="0">
 
             <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     app:srcCompat="@drawable/ic_menu_grid" />
         </RelativeLayout>
 

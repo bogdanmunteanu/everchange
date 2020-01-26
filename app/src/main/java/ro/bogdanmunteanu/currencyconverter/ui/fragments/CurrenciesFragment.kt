@@ -14,13 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_currencies.*
 import ro.bogdanmunteanu.currencyconverter.R
-import ro.bogdanmunteanu.currencyconverter.data.model.Currency
-import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
 import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.ui.activities.MainActivity
+import ro.bogdanmunteanu.currencyconverter.ui.adapters.BaseCurrencyInputListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrenciesAdapter
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyTypeFactoryImpl
@@ -30,7 +29,7 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 
-class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
+class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyInputListener {
 
     @Inject
     lateinit var factory: ViewModelFactory
@@ -40,7 +39,7 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
     private val adapter =
         CurrenciesAdapter(
             arrayListOf()
-        ,typeFactory = CurrencyTypeFactoryImpl(),clickListener = this)
+        ,typeFactory = CurrencyTypeFactoryImpl(),clickListener = this,inputListener = this)
     private var disposables = CurrencyDisposable()
 
 
@@ -75,21 +74,15 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
         llm.scrollToPositionWithOffset(0, 0)
     }
 
+    override fun onTextChanged(text: String, currency: String) {
+        viewModel.setInput(text)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this, factory).get(CurrenciesViewModel::class.java)
         val layoutManager = LinearLayoutManager(context)
         currenciesRecyclerView.layoutManager = layoutManager
         currenciesRecyclerView.adapter = adapter
-
-
-//        disposables.add(
-//            adapter.inputSubject.subscribeOn(Schedulers.io()).observeOn(
-//                AndroidSchedulers.mainThread()
-//            ).debounce(100,TimeUnit.MILLISECONDS).subscribe { input ->
-//                input?.let {
-//                    viewModel.setInput(it)
-//                }
-//            })
 
         viewModel.fetchState.observe(this, Observer<CurrenciesViewModel.State> {
             when (it) {
@@ -105,19 +98,24 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
                         PorterDuff.Mode.SRC_IN
                     )
                     settingsButton.visibility = View.GONE
-                    //currenciesRecyclerView.visibility=View.VISIBLE
+                    networkInfoLayout.visibility = View.GONE // configured, but not
                 }
                 CurrenciesViewModel.State.ERROR -> {
                     connectionImage.setImageResource(R.drawable.ic_no_wifi)
                     connectionMessage.setText(R.string.service_unavailable_message)
                     progress.isIndeterminate = false
-                    progress.progress = 50
+                    progress.progress = 100
                     progress.indeterminateDrawable.setColorFilter(
                         resources.getColor(android.R.color.holo_red_dark),
                         PorterDuff.Mode.SRC_IN
                     )
                     settingsButton.visibility = View.GONE
-                    currenciesRecyclerView.visibility = View.VISIBLE
+                    currenciesRecyclerView.visibility = View.INVISIBLE
+                    networkInfoLayout.visibility = View.VISIBLE
+                    networkInfoLayout.setOnClickListener {
+                        viewModel.getLiveCurrencies(getString(R.string.fx_base_currency))
+                        loading.visibility= View.VISIBLE
+                    }
                 }
                 CurrenciesViewModel.State.OFFLINE -> {
                     connectionImage.setImageResource(R.drawable.ic_no_wifi)
@@ -132,6 +130,8 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
                     settingsButton.setOnClickListener {
                         startActivityForResult(Intent(Settings.ACTION_WIRELESS_SETTINGS), 0)
                     }
+                    networkInfoLayout.visibility = View.VISIBLE
+
                 }
                 else -> ""
             }
@@ -156,10 +156,4 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener {
         viewModel.getLiveCurrencies(CurrencyMapper.EUR.title)
 
     }
-
-
-//    private fun initToolbar() {
-//        fragment_title.text = getString(R.string.app_name)
-//        fragment_subtitle.text = getString(R.string.app_subtitle)
-//    }
 }

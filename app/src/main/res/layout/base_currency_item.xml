@@ -65,6 +65,7 @@
                 android:ems="10"
                 android:gravity="end"
                 android:text=""
+                android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
                 android:fontFamily="@font/questrial"
                 app:layout_constraintBottom_toBottomOf="@+id/currencySubtitle"

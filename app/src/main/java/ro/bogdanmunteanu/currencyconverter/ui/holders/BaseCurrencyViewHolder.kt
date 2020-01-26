@@ -6,11 +6,12 @@ import android.view.View
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.base_currency_item.view.*
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
+import ro.bogdanmunteanu.currencyconverter.ui.adapters.BaseCurrencyInputListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
 import ro.bogdanmunteanu.currencyconverter.utils.DecimalDigitsInputFilter
 
 class BaseCurrencyViewHolder(view : View) : AbstractCurrencyViewHolder<BaseCurrencyModel>(view) {
-    override fun bind(item: BaseCurrencyModel,clickListener: CurrencyClickListener,position : Int) {
+    override fun bind(item: BaseCurrencyModel,clickListener: CurrencyClickListener,position : Int,textListener: BaseCurrencyInputListener) {
         itemView.currencyTitle.text = item.baseCurrency.isoCode
         itemView.currencySubtitle.text = item.baseCurrency.name
         itemView.currencyInput.hint = item.baseCurrency.rate.toString()
@@ -27,6 +28,7 @@ class BaseCurrencyViewHolder(view : View) : AbstractCurrencyViewHolder<BaseCurre
             override fun afterTextChanged(s: Editable?) {
                 s?.filters = arrayOf(DecimalDigitsInputFilter(10,2))
                 s?.toString()?.let {
+                    textListener.onTextChanged(it,item.baseCurrency.isoCode)
                 }
             }
         })

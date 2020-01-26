@@ -73,9 +73,8 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
             },{
                     error->if(error is OfflineException){
                 mFetchState.postValue(State.OFFLINE)
-                Log.e(TAG,"Device offline")
             } else {
-                mFetchState.postValue(State.OFFLINE)
+                mFetchState.postValue(State.ERROR)
                 Log.e(TAG,Log.getStackTraceString(error))
             }
             }))

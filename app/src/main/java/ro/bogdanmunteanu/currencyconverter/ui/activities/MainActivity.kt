@@ -1,10 +1,14 @@
 package ro.bogdanmunteanu.currencyconverter.ui.activities
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.MenuItem
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -15,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.ui.UiUtils
 import ro.bogdanmunteanu.currencyconverter.ui.fragments.CurrenciesFragment
+import java.lang.StringBuilder
 
 class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -22,6 +27,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        tvAppTitle.setText(prepareAppTitle(),TextView.BufferType.SPANNABLE)
         drawerLayout.setViewScale(Gravity.START, 0.9f)
         drawerLayout.setViewElevation(Gravity.START, 20f)
 
@@ -45,11 +51,6 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
-
     fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
         supportFragmentManager.inTransaction { add(frameId, fragment).addToBackStack(fragment.tag).setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left) }
     }
@@ -72,5 +73,18 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         } else {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+    }
+
+    fun prepareAppTitle():SpannableStringBuilder{
+        val builder = SpannableStringBuilder()
+
+        val str1 = SpannableString("ever")
+        str1.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.orange)), 0, str1.length, 0)
+        builder.append(str1)
+
+        val str2 = SpannableString("change")
+        str2.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.white)), 0, str2.length, 0)
+        builder.append(str2)
+        return builder
     }
 }
