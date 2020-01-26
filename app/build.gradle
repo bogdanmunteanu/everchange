@@ -17,12 +17,10 @@ repositories {
     google()
     jcenter()
 
-    maven { url "http://dl.bintray.com/davideas/maven" }
+    maven { url "https://dl.bintray.com/davideas/maven" }
     maven { url 'https://plugins.gradle.org/m2/' }
-    maven { url 'http://repo1.maven.org/maven2' }
-    maven { url 'http://jcenter.bintray.com' }
-
-
+    maven { url 'https://repo1.maven.org/maven2' }
+    maven { url 'https://jcenter.bintray.com' }
 }
 
 android {
@@ -143,6 +141,10 @@ dependencies {
 
     //drawer
     implementation 'com.infideap.drawerbehavior:drawer-behavior:0.2.2'
+
+    //room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }
 
 kapt {
