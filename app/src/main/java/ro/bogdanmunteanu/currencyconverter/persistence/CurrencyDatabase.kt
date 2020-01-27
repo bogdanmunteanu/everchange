@@ -38,9 +38,10 @@ abstract class CurrencyDatabase : RoomDatabase() {
 
         private val roomCallback = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
-                super.onCreate(db)
+
                 PopulateDbAsyncTask(instance)
                     .execute()
+                super.onCreate(db)
             }
         }
     }
@@ -49,7 +50,7 @@ abstract class CurrencyDatabase : RoomDatabase() {
         private val currencyDao = db?.currencyDao()
 
         override fun doInBackground(vararg p0: Unit?) {
-
+            currencyDao?.getAllCurrencies()
         }
     }
 }

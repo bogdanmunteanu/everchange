@@ -20,4 +20,7 @@ interface CurrencyDao {
 
     @Query("SELECT * FROM currencies")
     fun getAllCurrencies(): LiveData<List<Currency>>
+    
+    @Query("SELECT * FROM currencies WHERE isoCode=:isoCode")
+    fun getCurrency(isoCode: String) : Currency
 }

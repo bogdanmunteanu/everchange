@@ -27,140 +27,372 @@ class RevolutServiceRepository @Inject constructor(private val apiService: Revol
         list.add(BaseCurrencyModel(BaseCurrency(baseCurrency.title,baseCurrency.subtitle, BigDecimal(1.00),baseCurrency.flagURL)))
         if(BigDecimal(currencies.rates.EUR) != BigDecimal.ZERO)
         {
-            cache.insert(Currency(CurrencyMapper.EUR.title,CurrencyMapper.EUR.subtitle,BigDecimal(currencies.rates.EUR),CurrencyMapper.EUR.flagURL))
-            list.add(CurrencyModel(Currency(CurrencyMapper.EUR.title,CurrencyMapper.EUR.subtitle,BigDecimal(currencies.rates.EUR),CurrencyMapper.EUR.flagURL)))
+            val currency = Currency(CurrencyMapper.EUR.title,CurrencyMapper.EUR.subtitle,BigDecimal(currencies.rates.EUR),CurrencyMapper.EUR.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.AUD) != BigDecimal.ZERO)
         {
-            cache.insert(Currency(CurrencyMapper.AUD.title,CurrencyMapper.AUD.subtitle,BigDecimal(currencies.rates.AUD),CurrencyMapper.AUD.flagURL))
-            list.add(CurrencyModel(Currency(CurrencyMapper.AUD.title,CurrencyMapper.AUD.subtitle,BigDecimal(currencies.rates.AUD),CurrencyMapper.AUD.flagURL)))
+            val currency = Currency(CurrencyMapper.AUD.title,CurrencyMapper.AUD.subtitle,BigDecimal(currencies.rates.AUD),CurrencyMapper.AUD.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.BGN) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.BGN.title,CurrencyMapper.BGN.subtitle,BigDecimal(currencies.rates.BGN),CurrencyMapper.BGN.flagURL)))
+            val currency = Currency(CurrencyMapper.BGN.title,CurrencyMapper.BGN.subtitle,BigDecimal(currencies.rates.BGN),CurrencyMapper.BGN.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.BRL) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.BRL.title,CurrencyMapper.BRL.subtitle,BigDecimal(currencies.rates.BRL),CurrencyMapper.BRL.flagURL)))
+            val currency = Currency(CurrencyMapper.BRL.title,CurrencyMapper.BRL.subtitle,BigDecimal(currencies.rates.BRL),CurrencyMapper.BRL.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.CAD) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.CAD.title,CurrencyMapper.CAD.subtitle,BigDecimal(currencies.rates.CAD),CurrencyMapper.CAD.flagURL)))
+            val currency = Currency(CurrencyMapper.CAD.title,CurrencyMapper.CAD.subtitle,BigDecimal(currencies.rates.CAD),CurrencyMapper.CAD.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.CHF) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.CHF.title,CurrencyMapper.CHF.subtitle,BigDecimal(currencies.rates.CHF),CurrencyMapper.CHF.flagURL)))
+            val currency = Currency(CurrencyMapper.CHF.title,CurrencyMapper.CHF.subtitle,BigDecimal(currencies.rates.CHF),CurrencyMapper.CHF.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.CNY) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.CNY.title,CurrencyMapper.CNY.subtitle,BigDecimal(currencies.rates.CNY),CurrencyMapper.CNY.flagURL)))
+            val currency = Currency(CurrencyMapper.CNY.title,CurrencyMapper.CNY.subtitle,BigDecimal(currencies.rates.CNY),CurrencyMapper.CNY.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.CZK) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.CZK.title,CurrencyMapper.CZK.subtitle,BigDecimal(currencies.rates.CZK),CurrencyMapper.CZK.flagURL)))
+            val currency = Currency(CurrencyMapper.CZK.title,CurrencyMapper.CZK.subtitle,BigDecimal(currencies.rates.CZK),CurrencyMapper.CZK.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.DKK) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.DKK.title,CurrencyMapper.DKK.subtitle,BigDecimal(currencies.rates.DKK),CurrencyMapper.DKK.flagURL)))
+            val currency = Currency(CurrencyMapper.DKK.title,CurrencyMapper.DKK.subtitle,BigDecimal(currencies.rates.DKK),CurrencyMapper.DKK.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.GBP) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.GBP.title,CurrencyMapper.GBP.subtitle,BigDecimal(currencies.rates.GBP),CurrencyMapper.GBP.flagURL)))
+            val currency = Currency(CurrencyMapper.GBP.title,CurrencyMapper.GBP.subtitle,BigDecimal(currencies.rates.GBP),CurrencyMapper.GBP.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.HKD) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.HKD.title,CurrencyMapper.HKD.subtitle,BigDecimal(currencies.rates.HKD),CurrencyMapper.HKD.flagURL)))
+            val currency = Currency(CurrencyMapper.HKD.title,CurrencyMapper.HKD.subtitle,BigDecimal(currencies.rates.HKD),CurrencyMapper.HKD.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.HRK) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.HRK.title,CurrencyMapper.HRK.subtitle,BigDecimal(currencies.rates.HRK),CurrencyMapper.HRK.flagURL)))
+            val currency = Currency(CurrencyMapper.HRK.title,CurrencyMapper.HRK.subtitle,BigDecimal(currencies.rates.HRK),CurrencyMapper.HRK.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.HUF) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.HUF.title,CurrencyMapper.HUF.subtitle,BigDecimal(currencies.rates.HUF),CurrencyMapper.HUF.flagURL)))
+            val currency = Currency(CurrencyMapper.HUF.title,CurrencyMapper.HUF.subtitle,BigDecimal(currencies.rates.HUF),CurrencyMapper.HUF.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.IDR) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.IDR.title,CurrencyMapper.IDR.subtitle,BigDecimal(currencies.rates.IDR),CurrencyMapper.IDR.flagURL)))
+            val currency = Currency(CurrencyMapper.IDR.title,CurrencyMapper.IDR.subtitle,BigDecimal(currencies.rates.IDR),CurrencyMapper.IDR.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.ILS) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.ILS.title,CurrencyMapper.ILS.subtitle,BigDecimal(currencies.rates.ILS),CurrencyMapper.ILS.flagURL)))
+            val currency = Currency(CurrencyMapper.ILS.title,CurrencyMapper.ILS.subtitle,BigDecimal(currencies.rates.CNY),CurrencyMapper.CNY.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.INR) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.INR.title,CurrencyMapper.INR.subtitle,BigDecimal(currencies.rates.INR),CurrencyMapper.INR.flagURL)))
+            val currency = Currency(CurrencyMapper.INR.title,CurrencyMapper.INR.subtitle,BigDecimal(currencies.rates.INR),CurrencyMapper.INR.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.ISK) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.ISK.title,CurrencyMapper.ISK.subtitle,BigDecimal(currencies.rates.ISK),CurrencyMapper.ISK.flagURL)))
+            val currency = Currency(CurrencyMapper.ISK.title,CurrencyMapper.ISK.subtitle,BigDecimal(currencies.rates.ISK),CurrencyMapper.ISK.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.JPY) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.JPY.title,CurrencyMapper.JPY.subtitle,BigDecimal(currencies.rates.JPY),CurrencyMapper.JPY.flagURL)))
+            val currency = Currency(CurrencyMapper.JPY.title,CurrencyMapper.JPY.subtitle,BigDecimal(currencies.rates.JPY),CurrencyMapper.JPY.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.KRW) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.KRW.title,CurrencyMapper.KRW.subtitle,BigDecimal(currencies.rates.KRW),CurrencyMapper.KRW.flagURL)))
+            val currency = Currency(CurrencyMapper.KRW.title,CurrencyMapper.KRW.subtitle,BigDecimal(currencies.rates.KRW),CurrencyMapper.KRW.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.MXN) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.MXN.title,CurrencyMapper.MXN.subtitle,BigDecimal(currencies.rates.MXN),CurrencyMapper.MXN.flagURL)))
+            val currency = Currency(CurrencyMapper.MXN.title,CurrencyMapper.MXN.subtitle,BigDecimal(currencies.rates.MXN),CurrencyMapper.MXN.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.MYR) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.MYR.title,CurrencyMapper.MYR.subtitle,BigDecimal(currencies.rates.MYR),CurrencyMapper.MYR.flagURL)))
+            val currency = Currency(CurrencyMapper.MYR.title,CurrencyMapper.MYR.subtitle,BigDecimal(currencies.rates.MYR),CurrencyMapper.MYR.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.NOK) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.NOK.title,CurrencyMapper.NOK.subtitle,BigDecimal(currencies.rates.NOK),CurrencyMapper.NOK.flagURL)))
+            val currency = Currency(CurrencyMapper.NOK.title,CurrencyMapper.NOK.subtitle,BigDecimal(currencies.rates.NOK),CurrencyMapper.NOK.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.NZD) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.NZD.title,CurrencyMapper.NZD.subtitle,BigDecimal(currencies.rates.NZD),CurrencyMapper.NZD.flagURL)))
+            val currency = Currency(CurrencyMapper.NZD.title,CurrencyMapper.NZD.subtitle,BigDecimal(currencies.rates.NZD),CurrencyMapper.NZD.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.PHP) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.PHP.title,CurrencyMapper.PHP.subtitle,BigDecimal(currencies.rates.PHP),CurrencyMapper.PHP.flagURL)))
+            val currency = Currency(CurrencyMapper.PHP.title,CurrencyMapper.PHP.subtitle,BigDecimal(currencies.rates.PHP),CurrencyMapper.PHP.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.PLN) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.PLN.title,CurrencyMapper.PLN.subtitle,BigDecimal(currencies.rates.PLN),CurrencyMapper.PLN.flagURL)))
+            val currency = Currency(CurrencyMapper.PLN.title,CurrencyMapper.PLN.subtitle,BigDecimal(currencies.rates.PLN),CurrencyMapper.PLN.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.RON) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.RON.title,CurrencyMapper.RON.subtitle,BigDecimal(currencies.rates.RON),CurrencyMapper.RON.flagURL)))
+            val currency = Currency(CurrencyMapper.RON.title,CurrencyMapper.RON.subtitle,BigDecimal(currencies.rates.RON),CurrencyMapper.RON.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.RUB) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.RUB.title,CurrencyMapper.RUB.subtitle,BigDecimal(currencies.rates.RUB),CurrencyMapper.RON.flagURL)))
+            val currency = Currency(CurrencyMapper.RUB.title,CurrencyMapper.RUB.subtitle,BigDecimal(currencies.rates.RUB),CurrencyMapper.RUB.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.SEK) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.SEK.title,CurrencyMapper.SEK.subtitle,BigDecimal(currencies.rates.SEK),CurrencyMapper.SEK.flagURL)))
+            val currency = Currency(CurrencyMapper.SEK.title,CurrencyMapper.SEK.subtitle,BigDecimal(currencies.rates.SEK),CurrencyMapper.SEK.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.SGD) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.SGD.title,CurrencyMapper.SGD.subtitle,BigDecimal(currencies.rates.SGD),CurrencyMapper.SGD.flagURL)))
+            val currency = Currency(CurrencyMapper.SGD.title,CurrencyMapper.SGD.subtitle,BigDecimal(currencies.rates.SGD),CurrencyMapper.SGD.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.THB) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.THB.title,CurrencyMapper.THB.subtitle,BigDecimal(currencies.rates.THB),CurrencyMapper.THB.flagURL)))
+            val currency = Currency(CurrencyMapper.THB.title,CurrencyMapper.THB.subtitle,BigDecimal(currencies.rates.THB),CurrencyMapper.THB.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.TRY) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.TRY.title,CurrencyMapper.TRY.subtitle,BigDecimal(currencies.rates.TRY),CurrencyMapper.TRY.flagURL)))
+            val currency = Currency(CurrencyMapper.TRY.title,CurrencyMapper.TRY.subtitle,BigDecimal(currencies.rates.TRY),CurrencyMapper.TRY.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.USD) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.USD.title,CurrencyMapper.USD.subtitle,BigDecimal(currencies.rates.USD),CurrencyMapper.USD.flagURL)))
+            val currency = Currency(CurrencyMapper.USD.title,CurrencyMapper.USD.subtitle,BigDecimal(currencies.rates.USD),CurrencyMapper.USD.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
         if(BigDecimal(currencies.rates.ZAR) != BigDecimal.ZERO)
         {
-            list.add(CurrencyModel(Currency(CurrencyMapper.ZAR.title,CurrencyMapper.ZAR.subtitle,BigDecimal(currencies.rates.ZAR),CurrencyMapper.ZAR.flagURL)))
+            val currency = Currency(CurrencyMapper.ZAR.title,CurrencyMapper.ZAR.subtitle,BigDecimal(currencies.rates.ZAR),CurrencyMapper.ZAR.flagURL)
+            if(cache.getCurrency(currency)!=null)
+            {
+                cache.update(currency)
+            }else{
+                cache.insert(currency)
+            }
+            list.add(CurrencyModel(currency))
         }
 
         return list.toList()
     }
+
+
+
 
 }

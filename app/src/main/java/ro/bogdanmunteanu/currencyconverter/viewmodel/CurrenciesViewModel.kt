@@ -46,6 +46,10 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
         input = i
     }
 
+    fun printCurrenciesFromCache(){
+        Log.e("Cache::",cache.getAllCurrencies().value?.toString())
+    }
+
     fun getLiveCurrencies(baseCurrency:String)
     {
         disposables.clear() //need to clear the disposables because we need to make API call with new parameter
