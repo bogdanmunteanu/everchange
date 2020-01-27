@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
-import ro.bogdanmunteanu.currencyconverter.data.model.Currency
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
@@ -22,8 +21,6 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
     private val TAG = CurrenciesViewModel::class.java.simpleName
 
     private var disposables = CurrencyDisposable()
-    private var input: String? = null
-
 
     private var mCurrencies : MutableLiveData<List<CurrencyAbstractModel>> = MutableLiveData()
     val currencies : LiveData<List<CurrencyAbstractModel>> get() = mCurrencies
@@ -42,36 +39,28 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
         mFetchState.value = State.DONE
     }
 
-    fun setInput( i : String){
-        input = i
-    }
 
-    fun printCurrenciesFromCache(){
-        Log.e("Cache::",cache.getAllCurrencies().value?.toString())
-    }
-
-    fun getLiveCurrencies(baseCurrency:String)
+    fun getLiveCurrencies(baseCurrency:String,input : String)
     {
         disposables.clear() //need to clear the disposables because we need to make API call with new parameter
         mFetchState.value = State.IN_PROGRESS
-        disposables.add(service.getCurrencies(baseCurrency)
+        disposables.add(service.getCurrenciesFromEndpoint(baseCurrency,input)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .delay(1,TimeUnit.SECONDS)
             .repeat()
             .subscribe({ models ->
+                Log.e("Models::",models.toString())
                 models.forEach {model->
                     if(model is CurrencyModel )
                     {
-                        input?.let {
-                            if(it.isNotEmpty()){
-
-
-                                model.currency.rate = model.currency.rate.times(it.toBigDecimal())
-                            }else{
-                                model.currency.rate = model.currency.rate.times(BigDecimal.ONE)
-                            }
+                        if(input.isEmpty())
+                        {
+                            model.currency.rate = model.currency.rate.times(BigDecimal.ONE)
+                        }else{
+                            model.currency.rate = model.currency.rate.times(input.toBigDecimal())
                         }
+
                     }
                 }
                 mCurrencies.postValue(models)

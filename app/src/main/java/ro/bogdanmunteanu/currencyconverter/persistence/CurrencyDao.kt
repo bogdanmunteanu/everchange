@@ -19,7 +19,7 @@ interface CurrencyDao {
     fun deleteAllCurrencies()
 
     @Query("SELECT * FROM currencies")
-    fun getAllCurrencies(): LiveData<List<Currency>>
+    fun getAllCurrencies(): List<Currency>
     
     @Query("SELECT * FROM currencies WHERE isoCode=:isoCode")
     fun getCurrency(isoCode: String) : Currency

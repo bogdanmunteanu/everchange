@@ -9,16 +9,28 @@ import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
 import java.math.RoundingMode
 
 class CurrencyViewHolder(view: View) : AbstractCurrencyViewHolder<CurrencyModel>(view) {
-    override fun bind(item: CurrencyModel,clickListener: CurrencyClickListener,position:Int,textListener: BaseCurrencyInputListener) {
+    override fun bind(
+        item: CurrencyModel,
+        clickListener: CurrencyClickListener,
+        position: Int,
+        textListener: BaseCurrencyInputListener
+    ) {
 
         itemView.currencyTitle.text = item.currency.isoCode
         itemView.currencySubtitle.text = item.currency.name
-        itemView.currencyInput.hint=item.currency.rate.setScale(2, RoundingMode.HALF_EVEN).toString()
-        itemView.currencyInput.isEnabled = false
-        itemView.currencyInput.text= ""
+        itemView.currencyInput.setText(
+            item.currency.rate.setScale(
+                2,
+                RoundingMode.HALF_EVEN
+            ).toString()
+        )
         Glide.with(itemView.context)
             .load(item.currency.flagUrl)
             .into(itemView.currencyImage)
-        itemView.setOnClickListener { clickListener.onItemClick(position,item) }
+        itemView.currencyInput.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                clickListener.onItemClick(position, item)
+            }
+        }
     }
 }

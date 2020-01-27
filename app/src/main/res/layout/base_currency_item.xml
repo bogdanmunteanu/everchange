@@ -55,23 +55,18 @@
 
         <EditText
                 android:id="@+id/currencyInput"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="20dp"
-                android:background="@null"
-                android:padding="20dp"
-                android:lines="1"
-                android:maxLines="1"
-                android:ems="10"
-                android:gravity="end"
-                android:text=""
-                android:imeOptions="actionDone"
-                android:inputType="numberDecimal"
                 android:fontFamily="@font/questrial"
+                android:gravity="end"
+                android:textColor="@color/orange"
+                android:inputType="numberDecimal"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="@+id/currencySubtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.9"
-                app:layout_constraintStart_toEndOf="@+id/currencyTitle"
+                app:layout_constraintStart_toEndOf="@+id/currencySubtitle"
                 app:layout_constraintTop_toTopOf="@+id/currencyTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

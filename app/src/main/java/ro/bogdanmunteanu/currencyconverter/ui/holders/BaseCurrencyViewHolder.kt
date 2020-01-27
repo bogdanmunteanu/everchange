@@ -9,15 +9,18 @@ import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.BaseCurrencyInputListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
 import ro.bogdanmunteanu.currencyconverter.utils.DecimalDigitsInputFilter
+import java.math.RoundingMode
 
 class BaseCurrencyViewHolder(view : View) : AbstractCurrencyViewHolder<BaseCurrencyModel>(view) {
     override fun bind(item: BaseCurrencyModel,clickListener: CurrencyClickListener,position : Int,textListener: BaseCurrencyInputListener) {
         itemView.currencyTitle.text = item.baseCurrency.isoCode
         itemView.currencySubtitle.text = item.baseCurrency.name
-        itemView.currencyInput.hint = item.baseCurrency.rate.toString()
-        if(!itemView.currencyInput.hasFocus()) {
-            itemView.currencyInput.requestFocus()
-        }
+        itemView.currencyInput.setText(
+            item.baseCurrency.rate.setScale(
+                2,
+                RoundingMode.HALF_EVEN
+            ).toString()
+        )
         Glide.with(itemView.context)
             .load(item.baseCurrency.flagUrl)
             .into(itemView.currencyImage)
@@ -28,12 +31,13 @@ class BaseCurrencyViewHolder(view : View) : AbstractCurrencyViewHolder<BaseCurre
             override fun afterTextChanged(s: Editable?) {
                 s?.filters = arrayOf(DecimalDigitsInputFilter(10,2))
                 s?.toString()?.let {
+                    itemView.currencyInput.setSelection(s.length)
                     textListener.onTextChanged(it,item.baseCurrency.isoCode)
                 }
             }
         })
 
-        itemView.setOnClickListener{
+        itemView.currencyInput.setOnClickListener{
             clickListener.onItemClick(position,item)
         }
     }

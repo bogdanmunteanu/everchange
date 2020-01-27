@@ -3,73 +3,28 @@ package ro.bogdanmunteanu.currencyconverter.persistence
 import android.content.Context
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
+import io.reactivex.Observable
 import ro.bogdanmunteanu.currencyconverter.data.model.Currency
 import javax.inject.Inject
 
-class CurrencyRepository @Inject constructor(appContext: Context) {
+class CurrencyRepository @Inject constructor(database: CurrencyDatabase) {
 
 
-    private var currencyDao : CurrencyDao
+    private var currencyDao : CurrencyDao = database.currencyDao()
 
-    private var allCurrencies : LiveData<List<Currency>>
+    private var allCurrencies : List<Currency>
 
     init {
-
-        val database: CurrencyDatabase = CurrencyDatabase.getInstance(appContext)!!
-        currencyDao = database.currencyDao()
         allCurrencies = currencyDao.getAllCurrencies()
     }
 
-    fun insert(currency: Currency) = InsertNoteAsyncTask(currencyDao).execute(currency)
-    fun update(currency: Currency) = UpdateNoteAsyncTask(currencyDao).execute(currency)
-    fun delete(currency: Currency) = DeleteNoteAsyncTask(currencyDao).execute(currency)
-    fun deleteAllCurrencies() = DeleteAllNotesAsyncTask(currencyDao).execute()
-    fun getCurrency(currency: Currency) = GetCurrencyAsyncTask(currencyDao).execute(currency.isoCode)
+    fun insert(currency: Currency) = currencyDao.insert(currency)
+    fun update(currency: Currency) = currencyDao.update(currency)
+    fun delete(currency: Currency) = currencyDao.delete(currency)
+    fun deleteAllCurrencies() = currencyDao.deleteAllCurrencies()
+    fun getCurrency(currency: Currency) = currencyDao.getCurrency(currency.isoCode)
 
-    fun getAllCurrencies(): LiveData<List<Currency>> {
+    fun getAllCurrencies(): List<Currency> {
         return allCurrencies
-    }
-
-
-    companion object {
-        private class InsertNoteAsyncTask(currencyDao: CurrencyDao) : AsyncTask<Currency, Unit, Unit>() {
-            val currencyDao = currencyDao
-
-            override fun doInBackground(vararg p0: Currency?) {
-                p0[0]?.let { currencyDao.insert(it) }
-            }
-        }
-
-        private class UpdateNoteAsyncTask(currencyDao:  CurrencyDao) : AsyncTask<Currency, Unit, Unit>() {
-            val currencyDao = currencyDao
-
-            override fun doInBackground(vararg p0: Currency?) {
-                p0[0]?.let { currencyDao.update(it) }
-            }
-        }
-
-        private class DeleteNoteAsyncTask(currencyDao: CurrencyDao) : AsyncTask<Currency, Unit, Unit>() {
-            val currencyDao = currencyDao
-
-            override fun doInBackground(vararg p0: Currency?) {
-                p0[0]?.let { currencyDao.delete(it) }
-            }
-        }
-
-        private class DeleteAllNotesAsyncTask(currencyDao: CurrencyDao) : AsyncTask<Unit, Unit, Unit>() {
-            val currencyDao = currencyDao
-
-            override fun doInBackground(vararg p0: Unit) {
-                currencyDao.deleteAllCurrencies()
-            }
-        }
-
-        private class GetCurrencyAsyncTask(currencyDao: CurrencyDao) : AsyncTask<String, Unit, Unit>() {
-            val currencyDao = currencyDao
-
-            override fun doInBackground(vararg p0: String?) {
-                p0[0]?.let { currencyDao.getCurrency(it) }
-            }
-        }
     }
 }

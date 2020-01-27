@@ -8,7 +8,8 @@ import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.ui.holders.AbstractCurrencyViewHolder
-import java.math.BigDecimal
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CurrenciesAdapter(
@@ -44,9 +45,10 @@ class CurrenciesAdapter(
 
     fun moveItem(fromPosition: Int, toPosition: Int) {
         if (fromPosition == toPosition) return
+
         val oldCurrencyItem = currencies[fromPosition] as? CurrencyModel
         oldCurrencyItem?.let {
-            val newBaseCurrencyItem = BaseCurrencyModel(BaseCurrency( oldCurrencyItem.currency.isoCode,oldCurrencyItem.currency.name, BigDecimal.ONE,oldCurrencyItem.currency.flagUrl))
+            val newBaseCurrencyItem = BaseCurrencyModel(BaseCurrency( oldCurrencyItem.currency.isoCode,oldCurrencyItem.currency.name, oldCurrencyItem.currency.rate,oldCurrencyItem.currency.flagUrl))
             currencies.add(toPosition, newBaseCurrencyItem)
             currencies.removeAt(fromPosition)
             notifyItemMoved(fromPosition, toPosition)

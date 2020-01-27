@@ -1,5 +1,6 @@
 package ro.bogdanmunteanu.currencyconverter.data.di
 
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -11,6 +12,6 @@ import java.util.*
 interface RevolutApiService {
 
     @GET("/latest?")
-    fun getCurrencies(@Query("base") baseCurrency: String) : Single<Currencies>
+    fun getCurrencies(@Query("base") baseCurrency: String) : Flowable<Currencies>
 
 }

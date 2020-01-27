@@ -1,5 +1,7 @@
 package ro.bogdanmunteanu.currencyconverter.data.repository
 
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import ro.bogdanmunteanu.currencyconverter.data.di.RevolutApiService
 import ro.bogdanmunteanu.currencyconverter.data.model.*
@@ -8,23 +10,27 @@ import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractM
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.persistence.CurrencyRepository
 import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
+import java.lang.NumberFormatException
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class RevolutServiceRepository @Inject constructor(private val apiService: RevolutApiService,private val cache: CurrencyRepository){
 
-    fun getCurrencies(baseCurrency:String) : Single<List<CurrencyAbstractModel>> {
-        return apiService.getCurrencies(baseCurrency).map { t: Currencies -> mapCurrencies(t) }
+    fun getCurrenciesFromEndpoint(baseCurrency:String,input:String = BigDecimal.ONE.toString()) : Flowable<List<CurrencyAbstractModel>> {
+        return apiService.getCurrencies(baseCurrency).map { t: Currencies -> mapCurrencies(t,input) }
     }
 
-
-    private fun mapCurrencies(currencies: Currencies) : List<CurrencyAbstractModel>
+    private fun mapCurrencies(currencies: Currencies,input: String) : List<CurrencyAbstractModel>
     {
         var baseCurrency: CurrencyMapper = CurrencyMapper.fromTitle(currencies.base)
         val list = ArrayList<CurrencyAbstractModel>()
         list.clear()
-        list.add(BaseCurrencyModel(BaseCurrency(baseCurrency.title,baseCurrency.subtitle, BigDecimal(1.00),baseCurrency.flagURL)))
+        try {
+            list.add(BaseCurrencyModel(BaseCurrency(baseCurrency.title,baseCurrency.subtitle, BigDecimal(input),baseCurrency.flagURL)))
+        }catch( e: NumberFormatException){
+            list.add(BaseCurrencyModel(BaseCurrency(baseCurrency.title,baseCurrency.subtitle, BigDecimal.ONE,baseCurrency.flagURL)))
+        }
         if(BigDecimal(currencies.rates.EUR) != BigDecimal.ZERO)
         {
             val currency = Currency(CurrencyMapper.EUR.title,CurrencyMapper.EUR.subtitle,BigDecimal(currencies.rates.EUR),CurrencyMapper.EUR.flagURL)
@@ -391,6 +397,9 @@ class RevolutServiceRepository @Inject constructor(private val apiService: Revol
 
         return list.toList()
     }
+
+
+
 
 
 
