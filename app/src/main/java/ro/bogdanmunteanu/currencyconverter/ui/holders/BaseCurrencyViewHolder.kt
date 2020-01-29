@@ -10,35 +10,46 @@ import ro.bogdanmunteanu.currencyconverter.ui.adapters.BaseCurrencyInputListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
 import ro.bogdanmunteanu.currencyconverter.utils.DecimalDigitsInputFilter
 import java.math.RoundingMode
+import java.util.*
 
-class BaseCurrencyViewHolder(view : View) : AbstractCurrencyViewHolder<BaseCurrencyModel>(view) {
-    override fun bind(item: BaseCurrencyModel,clickListener: CurrencyClickListener,position : Int,textListener: BaseCurrencyInputListener) {
+class BaseCurrencyViewHolder(view: View) : AbstractCurrencyViewHolder<BaseCurrencyModel>(view) {
+    override fun bind(
+        item: BaseCurrencyModel,
+        clickListener: CurrencyClickListener,
+        position: Int,
+        textListener: BaseCurrencyInputListener
+    ) {
         itemView.currencyTitle.text = item.baseCurrency.isoCode
         itemView.currencySubtitle.text = item.baseCurrency.name
         itemView.currencyInput.setText(
-            item.baseCurrency.rate.setScale(
-                2,
-                RoundingMode.HALF_EVEN
-            ).toString()
+            String.format(
+                Locale.getDefault(), item.baseCurrency.rate.setScale(
+                    6,
+                    RoundingMode.HALF_EVEN
+                ).toString()
+            )
         )
+        itemView.currencyInput.let {
+            it.setSelection(it.text.length)
+        }
         Glide.with(itemView.context)
             .load(item.baseCurrency.flagUrl)
             .into(itemView.currencyImage)
 
         itemView.currencyInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                s?.filters = arrayOf(DecimalDigitsInputFilter(10,2))
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 s?.toString()?.let {
-                    itemView.currencyInput.setSelection(s.length)
-                    textListener.onTextChanged(it,item.baseCurrency.isoCode)
+                    textListener.onTextChanged(it, item.baseCurrency.isoCode)
                 }
+            }
+            override fun afterTextChanged(s: Editable?) {
+                s?.filters = arrayOf(DecimalDigitsInputFilter(10, 6))
             }
         })
 
-        itemView.currencyInput.setOnClickListener{
-            clickListener.onItemClick(position,item)
+        itemView.currencyInput.setOnClickListener {
+            clickListener.onItemClick(position, item)
         }
     }
 }

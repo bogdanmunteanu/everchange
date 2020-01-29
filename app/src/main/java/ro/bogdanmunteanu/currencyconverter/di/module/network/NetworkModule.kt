@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ro.bogdanmunteanu.currencyconverter.BuildConfig
 import ro.bogdanmunteanu.currencyconverter.data.api.NetworkInfo
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
-import ro.bogdanmunteanu.currencyconverter.data.di.RevolutApiService
+import ro.bogdanmunteanu.currencyconverter.data.api.RevolutApiService
 import javax.inject.Named
 import javax.inject.Singleton
 

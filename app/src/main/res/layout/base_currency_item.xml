@@ -60,12 +60,12 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/questrial"
                 android:gravity="end"
-                android:textColor="@color/orange"
                 android:inputType="numberDecimal"
+                android:textColor="@color/orange"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintBottom_toBottomOf="@+id/currencySubtitle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toEndOf="@+id/currencySubtitle"
                 app:layout_constraintTop_toTopOf="@+id/currencyTitle" />
 

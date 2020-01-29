@@ -1,5 +1,6 @@
 package ro.bogdanmunteanu.currencyconverter.data.model
 
+import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import java.math.BigDecimal
 
 abstract class CurrencyRate {

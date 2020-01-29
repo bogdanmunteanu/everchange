@@ -10,13 +10,12 @@ import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
-import ro.bogdanmunteanu.currencyconverter.persistence.CurrencyRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class CurrenciesViewModel @Inject constructor(val service: RevolutServiceRepository,val cache:CurrencyRepository): ViewModel() {
+class CurrenciesViewModel @Inject constructor(val service: RevolutServiceRepository): ViewModel() {
 
     private val TAG = CurrenciesViewModel::class.java.simpleName
 
@@ -50,7 +49,7 @@ class CurrenciesViewModel @Inject constructor(val service: RevolutServiceReposit
             .delay(1,TimeUnit.SECONDS)
             .repeat()
             .subscribe({ models ->
-                Log.e("Models::",models.toString())
+                Log.e("Diff util ::",models.toString() )
                 models.forEach {model->
                     if(model is CurrencyModel )
                     {

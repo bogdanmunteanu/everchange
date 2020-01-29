@@ -51,6 +51,7 @@ class CurrenciesAdapter(
             val newBaseCurrencyItem = BaseCurrencyModel(BaseCurrency( oldCurrencyItem.currency.isoCode,oldCurrencyItem.currency.name, oldCurrencyItem.currency.rate,oldCurrencyItem.currency.flagUrl))
             currencies.add(toPosition, newBaseCurrencyItem)
             currencies.removeAt(fromPosition)
+            notifyItemChanged(fromPosition)
             notifyItemMoved(fromPosition, toPosition)
         }
 
