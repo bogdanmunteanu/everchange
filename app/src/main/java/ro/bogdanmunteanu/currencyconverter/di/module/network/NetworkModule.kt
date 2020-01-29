@@ -14,6 +14,7 @@ import ro.bogdanmunteanu.currencyconverter.BuildConfig
 import ro.bogdanmunteanu.currencyconverter.data.api.NetworkInfo
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
 import ro.bogdanmunteanu.currencyconverter.data.api.RevolutApiService
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -71,6 +72,8 @@ class NetworkModule {
                           @Named(OFFLINE_INTERCEPTOR)offlineCheckInterceptor: Interceptor? = null):OkHttpClient {
 
         val okHttpClient = OkHttpClient.Builder()
+        okHttpClient.readTimeout(20,TimeUnit.SECONDS)
+        okHttpClient.connectTimeout(20,TimeUnit.SECONDS)
         if (loggingInterceptor != null) okHttpClient.addInterceptor(loggingInterceptor)
         if (offlineCheckInterceptor != null)  okHttpClient.addInterceptor(offlineCheckInterceptor)
         return okHttpClient.build()
