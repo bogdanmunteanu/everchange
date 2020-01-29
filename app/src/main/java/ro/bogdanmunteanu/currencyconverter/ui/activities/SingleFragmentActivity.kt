@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import android.os.Bundle
 import androidx.annotation.RestrictTo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import dagger.android.support.DaggerAppCompatActivity
 
@@ -14,8 +15,8 @@ import dagger.android.support.DaggerAppCompatActivity
 class SingleFragmentActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val content = FrameLayout(this).apply {
-            layoutParams = FrameLayout.LayoutParams(
+        val content = ConstraintLayout(this).apply {
+            layoutParams = ConstraintLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )

@@ -24,13 +24,19 @@ class CurrenciesAdapter(
         viewType: Int
     ): AbstractCurrencyViewHolder<CurrencyAbstractModel> {
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-        return typeFactory.holder(viewType, view) as AbstractCurrencyViewHolder<CurrencyAbstractModel>
+        return typeFactory.holder(
+            viewType,
+            view
+        ) as AbstractCurrencyViewHolder<CurrencyAbstractModel>
     }
 
     override fun getItemCount(): Int = currencies.count()
 
-    override fun onBindViewHolder(holder: AbstractCurrencyViewHolder<CurrencyAbstractModel>, position: Int) {
-        holder.bind(currencies[position],clickListener,position,inputListener)
+    override fun onBindViewHolder(
+        holder: AbstractCurrencyViewHolder<CurrencyAbstractModel>,
+        position: Int
+    ) {
+        holder.bind(currencies[position], clickListener, position, inputListener)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -48,7 +54,15 @@ class CurrenciesAdapter(
 
         val oldCurrencyItem = currencies[fromPosition] as? CurrencyModel
         oldCurrencyItem?.let {
-            val newBaseCurrencyItem = BaseCurrencyModel(BaseCurrency( oldCurrencyItem.currency.isoCode,oldCurrencyItem.currency.name, oldCurrencyItem.currency.rate,oldCurrencyItem.currency.flagUrl))
+            val newBaseCurrencyItem = BaseCurrencyModel(
+                BaseCurrency(
+                    oldCurrencyItem.currency.isoCode,
+                    oldCurrencyItem.currency.name,
+                    oldCurrencyItem.currency.rate,
+                    oldCurrencyItem.currency.flagUrl,
+                    oldCurrencyItem.currency.priority
+                )
+            )
             currencies.add(toPosition, newBaseCurrencyItem)
             currencies.removeAt(fromPosition)
             notifyItemChanged(fromPosition)

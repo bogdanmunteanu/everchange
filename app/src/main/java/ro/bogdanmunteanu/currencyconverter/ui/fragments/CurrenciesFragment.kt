@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_currencies.*
+import kotlinx.android.synthetic.main.view_loading_list.*
 import ro.bogdanmunteanu.currencyconverter.R
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
@@ -29,7 +30,7 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 
-class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyInputListener {
+class CurrenciesFragment : DaggerFragment(), CurrencyClickListener, BaseCurrencyInputListener {
 
     @Inject
     lateinit var factory: ViewModelFactory
@@ -39,7 +40,8 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyIn
     private val adapter =
         CurrenciesAdapter(
             arrayListOf()
-        ,typeFactory = CurrencyTypeFactoryImpl(),clickListener = this,inputListener = this)
+            , typeFactory = CurrencyTypeFactoryImpl(), clickListener = this, inputListener = this
+        )
     private var disposables = CurrencyDisposable()
 
 
@@ -65,15 +67,18 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyIn
         super.onDestroyView()
     }
 
-    override fun onItemClick(position: Int,item : CurrencyAbstractModel) {
+    override fun onItemClick(position: Int, item: CurrencyAbstractModel) {
         adapter.moveItem(position, 0)
         currenciesRecyclerView.recycledViewPool.clear()
-        when(item){
-            is BaseCurrencyModel->{
-                viewModel.getLiveCurrencies(item.baseCurrency.isoCode,item.baseCurrency.rate.toString())
+        when (item) {
+            is BaseCurrencyModel -> {
+                viewModel.getLiveCurrencies(
+                    item.baseCurrency.isoCode,
+                    item.baseCurrency.rate.toString()
+                )
             }
-            is CurrencyModel->{
-                viewModel.getLiveCurrencies(item.currency.isoCode,item.currency.rate.toString())
+            is CurrencyModel -> {
+                viewModel.getLiveCurrencies(item.currency.isoCode, item.currency.rate.toString())
             }
         }
         val llm = currenciesRecyclerView.layoutManager as LinearLayoutManager
@@ -81,7 +86,7 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyIn
     }
 
     override fun onTextChanged(text: String, currency: String) {
-        viewModel.getLiveCurrencies(currency,text)
+        viewModel.getLiveCurrencies(currency, text)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,7 +98,7 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyIn
         viewModel.fetchState.observe(this, Observer<CurrenciesViewModel.State> {
             when (it) {
                 CurrenciesViewModel.State.DONE -> {
-                    viewModel.getLiveCurrencies(CurrencyMapper.EUR.title,BigDecimal.ONE.toString())
+                    viewModel.getLiveCurrencies(CurrencyMapper.EUR.title, BigDecimal.ONE.toString())
                 }
                 CurrenciesViewModel.State.IN_PROGRESS -> {
                     connectionImage.setImageResource(R.drawable.ic_wifi)
@@ -119,8 +124,11 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyIn
                     currenciesRecyclerView.visibility = View.INVISIBLE
                     networkInfoLayout.visibility = View.VISIBLE
                     networkInfoLayout.setOnClickListener {
-                        viewModel.getLiveCurrencies(getString(R.string.fx_base_currency),BigDecimal.ONE.toString())
-                        loading.visibility= View.VISIBLE
+                        viewModel.getLiveCurrencies(
+                            getString(R.string.fx_base_currency),
+                            BigDecimal.ONE.toString()
+                        )
+                        loading.visibility = View.VISIBLE
                     }
                 }
                 CurrenciesViewModel.State.OFFLINE -> {
@@ -155,11 +163,9 @@ class CurrenciesFragment : DaggerFragment(),CurrencyClickListener,BaseCurrencyIn
     }
 
 
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //retry api call on result
-        viewModel.getLiveCurrencies(CurrencyMapper.EUR.title,BigDecimal.ONE.toString())
+        viewModel.getLiveCurrencies(CurrencyMapper.EUR.title, BigDecimal.ONE.toString())
 
     }
 }

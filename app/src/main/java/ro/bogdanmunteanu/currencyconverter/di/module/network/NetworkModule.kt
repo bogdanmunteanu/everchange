@@ -30,7 +30,7 @@ class NetworkModule {
     @Singleton
     @Named("baseUrl")
     fun provideBaseUrl(): String {
-        return  "https://revolut.duckdns.org"
+        return "https://revolut.duckdns.org"
     }
 
 
@@ -58,7 +58,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory() : GsonConverterFactory {
+    fun provideGsonConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create(Gson())
     }
 
@@ -68,20 +68,25 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHttpClient(loggingInterceptor: HttpLoggingInterceptor? = null,
-                          @Named(OFFLINE_INTERCEPTOR)offlineCheckInterceptor: Interceptor? = null):OkHttpClient {
+    fun provideHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor? = null,
+        @Named(OFFLINE_INTERCEPTOR) offlineCheckInterceptor: Interceptor? = null
+    ): OkHttpClient {
 
         val okHttpClient = OkHttpClient.Builder()
-        okHttpClient.readTimeout(20,TimeUnit.SECONDS)
-        okHttpClient.connectTimeout(20,TimeUnit.SECONDS)
+        okHttpClient.readTimeout(20, TimeUnit.SECONDS)
+        okHttpClient.connectTimeout(20, TimeUnit.SECONDS)
         if (loggingInterceptor != null) okHttpClient.addInterceptor(loggingInterceptor)
-        if (offlineCheckInterceptor != null)  okHttpClient.addInterceptor(offlineCheckInterceptor)
+        if (offlineCheckInterceptor != null) okHttpClient.addInterceptor(offlineCheckInterceptor)
         return okHttpClient.build()
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(@Named(BASE_URL) baseUrl: String,gson: Gson, httpClient: OkHttpClient) : Retrofit {
+    fun provideRetrofit(
+        @Named(BASE_URL) baseUrl: String, gson: Gson,
+        httpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -92,7 +97,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit) : RevolutApiService = retrofit.create(RevolutApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): RevolutApiService =
+        retrofit.create(RevolutApiService::class.java)
 
     @Provides
     @Singleton
@@ -106,6 +112,4 @@ class NetworkModule {
             }
         }
     }
-
-
 }

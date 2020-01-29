@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loading"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <io.supercharge.shimmerlayout.ShimmerLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:visibility="visible"
+            app:shimmer_animation_duration="900"
+            app:shimmer_auto_start="true"
+            app:shimmer_color="@color/converter_white">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/currency_item_background" />
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/currency_item_background" />
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/currency_item_background" />
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/currency_item_background" />
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/currency_item_background" />
+
+
+        </LinearLayout>
+    </io.supercharge.shimmerlayout.ShimmerLayout>
+
+</LinearLayout>

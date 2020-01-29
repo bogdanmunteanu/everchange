@@ -6,5 +6,6 @@ data class BaseCurrency(
     var isoCode: String,
     var name: String,
     var rate: BigDecimal,
-    var flagUrl: String
+    var flagUrl: String,
+    var priority:Int
 )

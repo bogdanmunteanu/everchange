@@ -16,14 +16,14 @@ import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
 internal abstract class FragmentModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeCurrenciesFragment() : CurrenciesFragment
+    abstract fun contributeCurrenciesFragment(): CurrenciesFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeAboutFragment() : AboutFragment
+    abstract fun contributeAboutFragment(): AboutFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeTermsFragment() : TermsFragment
+    abstract fun contributeTermsFragment(): TermsFragment
 
     @ContributesAndroidInjector
-    abstract fun contributePrivacyFragment() : PrivacyFragment
+    abstract fun contributePrivacyFragment(): PrivacyFragment
 }

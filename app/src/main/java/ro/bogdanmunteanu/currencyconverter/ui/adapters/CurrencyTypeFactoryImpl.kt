@@ -16,10 +16,10 @@ class CurrencyTypeFactoryImpl : CurrencyTypeFactory {
     override fun type(currency: Currency): Int = R.layout.currency_item
 
     override fun holder(type: Int, view: View): AbstractCurrencyViewHolder<*> {
-        return when(type){
-            R.layout.base_currency_item-> BaseCurrencyViewHolder(view)
-            R.layout.currency_item-> CurrencyViewHolder(view)
-            else-> throw IllegalArgumentException("Illegal view type")
+        return when (type) {
+            R.layout.base_currency_item -> BaseCurrencyViewHolder(view)
+            R.layout.currency_item -> CurrencyViewHolder(view)
+            else -> throw IllegalArgumentException("Illegal view type")
         }
     }
 }

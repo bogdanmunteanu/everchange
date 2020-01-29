@@ -17,6 +17,6 @@ internal abstract class MainActivityModule {
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     //inject all modules into main activity
-    @ContributesAndroidInjector(modules = [ViewModelModule::class,FragmentModule::class])
+    @ContributesAndroidInjector(modules = [ViewModelModule::class, FragmentModule::class])
     internal abstract fun contributeMainActivity(): MainActivity
 }

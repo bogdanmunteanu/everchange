@@ -6,4 +6,8 @@
     <string name="settings_button_text">Settings</string>
     <string name="app_subtitle">Live Currencies</string>
     <string name="fx_base_currency">EUR</string>
+    <string name="btn_privacy_policy_text">Privacy policy</string>
+    <string name="btn_terms_and_conditions_text">Terms and condtions</string>
+    <string name="btn_about_text">About</string>
+    <string name="btn_converter_text">Converter</string>
 </resources>

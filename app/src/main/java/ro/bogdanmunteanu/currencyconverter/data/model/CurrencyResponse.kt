@@ -4,8 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Currencies constructor(
+class CurrencyResponse constructor(
     val base: String,
     val date: String,
-    val rates: CurrencyRates
+    val rates: HashMap<String, String>
 ) : Parcelable

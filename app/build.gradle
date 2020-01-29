@@ -1,10 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
-
 apply plugin: 'eu.davidea.grabver'
 
 ext.versionMajor = 1
@@ -141,17 +138,11 @@ dependencies {
 
     //drawer
     implementation 'com.infideap.drawerbehavior:drawer-behavior:0.2.2'
-
-    //room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
 }
 
 kapt {
     generateStubs = true
 }
-
-
 
 def customApkName(variant) {
     variant.outputs.all { output ->

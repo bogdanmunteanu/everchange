@@ -30,7 +30,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tvAppTitle.setText(prepareAppTitle(),TextView.BufferType.SPANNABLE)
+        tvAppTitle.setText(prepareAppTitle(), TextView.BufferType.SPANNABLE)
         drawerLayout.setViewScale(Gravity.START, 0.9f)
         drawerLayout.setViewElevation(Gravity.START, 20f)
 
@@ -61,55 +61,82 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         if (supportFragmentManager.findFragmentByTag(CurrenciesFragment.TAG) == null) {
             addFragment(CurrenciesFragment().newInstance() as Fragment, R.id.frame)
         } else {
-            replaceFragment(supportFragmentManager.findFragmentByTag(CurrenciesFragment.TAG) as Fragment, R.id.frame)
+            replaceFragment(
+                supportFragmentManager.findFragmentByTag(CurrenciesFragment.TAG) as Fragment,
+                R.id.frame
+            )
         }
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
+        closeDrawer()
     }
 
     private fun showAboutFragment() {
         if (supportFragmentManager.findFragmentByTag(AboutFragment.TAG) == null) {
             addFragment(AboutFragment().newInstance() as Fragment, R.id.frame)
         } else {
-            replaceFragment(supportFragmentManager.findFragmentByTag(AboutFragment.TAG) as Fragment, R.id.frame)
+            replaceFragment(
+                supportFragmentManager.findFragmentByTag(AboutFragment.TAG) as Fragment,
+                R.id.frame
+            )
         }
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
+        closeDrawer()
     }
 
     private fun showTermsFragment() {
         if (supportFragmentManager.findFragmentByTag(TermsFragment.TAG) == null) {
             addFragment(TermsFragment().newInstance() as Fragment, R.id.frame)
         } else {
-            replaceFragment(supportFragmentManager.findFragmentByTag(TermsFragment.TAG) as Fragment, R.id.frame)
+            replaceFragment(
+                supportFragmentManager.findFragmentByTag(TermsFragment.TAG) as Fragment,
+                R.id.frame
+            )
         }
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        }
+        closeDrawer()
     }
 
     private fun showPrivacyFragment() {
         if (supportFragmentManager.findFragmentByTag(PrivacyFragment.TAG) == null) {
             addFragment(PrivacyFragment().newInstance() as Fragment, R.id.frame)
         } else {
-            replaceFragment(supportFragmentManager.findFragmentByTag(PrivacyFragment.TAG) as Fragment, R.id.frame)
+            replaceFragment(
+                supportFragmentManager.findFragmentByTag(PrivacyFragment.TAG) as Fragment,
+                R.id.frame
+            )
         }
+        closeDrawer()
+    }
+
+    private fun closeDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         }
     }
 
-    fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int){
-        supportFragmentManager.inTransaction { add(frameId, fragment).addToBackStack(fragment.tag).setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left) }
-    }
-    fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
-        supportFragmentManager.inTransaction { replace(frameId,fragment).setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left) }
+    fun AppCompatActivity.addFragment(fragment: Fragment, frameId: Int) {
+        supportFragmentManager.inTransaction {
+            add(frameId, fragment).addToBackStack(fragment.tag).setCustomAnimations(
+                R.anim.enter_from_left,
+                R.anim.exit_to_right,
+                R.anim.enter_from_right,
+                R.anim.exit_to_left
+            )
+        }
     }
 
-    inline fun FragmentManager.inTransaction(func: FragmentTransaction.()-> FragmentTransaction)
-    {
+    fun AppCompatActivity.replaceFragment(fragment: Fragment, frameId: Int) {
+        supportFragmentManager.inTransaction {
+            replace(
+                frameId,
+                fragment
+            ).setCustomAnimations(
+                R.anim.enter_from_left,
+                R.anim.exit_to_right,
+                R.anim.enter_from_right,
+                R.anim.exit_to_left
+            )
+        }
+    }
+
+    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
         val fragmentTransaction = beginTransaction()
         fragmentTransaction.func()
         fragmentTransaction.commit()
@@ -125,15 +152,25 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         }
     }
 
-    fun prepareAppTitle():SpannableStringBuilder{
+    private fun prepareAppTitle(): SpannableStringBuilder {
         val builder = SpannableStringBuilder()
 
         val str1 = SpannableString("ever")
-        str1.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.orange)), 0, str1.length, 0)
+        str1.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(this, R.color.orange)),
+            0,
+            str1.length,
+            0
+        )
         builder.append(str1)
 
         val str2 = SpannableString("change")
-        str2.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.white)), 0, str2.length, 0)
+        str2.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(this, R.color.white)),
+            0,
+            str2.length,
+            0
+        )
         builder.append(str2)
         return builder
     }

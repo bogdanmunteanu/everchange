@@ -13,6 +13,6 @@ import ro.bogdanmunteanu.currencyconverter.di.module.network.NetworkModule
 abstract class AppModule {
 
     @Binds
-    abstract fun provideContext(application: Application) : Context
+    abstract fun provideContext(application: Application): Context
 
 }

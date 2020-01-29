@@ -14,8 +14,8 @@
                 android:id="@+id/ivAppIcon"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:padding="8dp"
                 android:layout_margin="2dp"
+                android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_converter_icon" />
@@ -38,7 +38,6 @@
                     app:srcCompat="@drawable/ic_menu_grid" />
         </RelativeLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -57,24 +56,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Live Currencies"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/currenciesLayout"
-                    app:layout_constraintStart_toStartOf="@+id/currenciesLayout"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:textColor="@color/black"
                     android:textSize="17dp"
-                    app:layout_constraintVertical_bias="0"
-                    app:layout_constraintHorizontal_bias="0.2"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/currenciesLayout"
+                    app:layout_constraintHorizontal_bias="0.2"
+                    app:layout_constraintStart_toStartOf="@+id/currenciesLayout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/currenciesLayout"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fragmentTitle"
-                    android:layout_marginTop="8dp">
+                    app:layout_constraintTop_toBottomOf="@id/fragmentTitle">
 
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/currenciesRecyclerView"
@@ -88,56 +87,13 @@
                         tools:itemCount="7"
                         tools:listitem="@layout/currency_item" />
 
-                <io.supercharge.shimmerlayout.ShimmerLayout
-                        android:id="@+id/loading"
+                <include
+                        layout="@layout/view_loading_list"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:visibility="visible"
-                        app:shimmer_animation_duration="900"
-                        app:shimmer_auto_start="true"
-                        app:shimmer_color="@color/converter_white">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                        <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/currency_item_background" />
-
-                        <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/currency_item_background" />
-
-                        <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/currency_item_background" />
-
-                        <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/currency_item_background" />
-
-                        <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="100dp"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/currency_item_background" />
+                        android:layout_height="match_parent" />
 
 
-                    </LinearLayout>
-                </io.supercharge.shimmerlayout.ShimmerLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -195,7 +151,6 @@
                     app:layout_constraintTop_toTopOf="@+id/connectionImage"
                     app:layout_constraintVertical_bias="0.5" />
 
-
             <Button
                     android:id="@+id/settingsButton"
                     style="@style/Widget.AppCompat.Button.Borderless"
@@ -210,7 +165,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/connectionImage"
                     app:layout_constraintVertical_bias="0.5" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

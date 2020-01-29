@@ -1,6 +1,7 @@
 package ro.bogdanmunteanu.currencyconverter.ui.holders
 
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import com.bumptech.glide.Glide
@@ -21,14 +22,16 @@ class BaseCurrencyViewHolder(view: View) : AbstractCurrencyViewHolder<BaseCurren
     ) {
         itemView.currencyTitle.text = item.baseCurrency.isoCode
         itemView.currencySubtitle.text = item.baseCurrency.name
+        itemView.currencyInput.inputType = InputType.TYPE_CLASS_NUMBER
         itemView.currencyInput.setText(
             String.format(
                 Locale.getDefault(), item.baseCurrency.rate.setScale(
-                    6,
+                    3,
                     RoundingMode.HALF_EVEN
                 ).toString()
             )
         )
+
         itemView.currencyInput.let {
             it.setSelection(it.text.length)
         }
@@ -43,6 +46,7 @@ class BaseCurrencyViewHolder(view: View) : AbstractCurrencyViewHolder<BaseCurren
                     textListener.onTextChanged(it, item.baseCurrency.isoCode)
                 }
             }
+
             override fun afterTextChanged(s: Editable?) {
                 s?.filters = arrayOf(DecimalDigitsInputFilter(10, 6))
             }

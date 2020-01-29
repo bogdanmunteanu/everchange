@@ -6,8 +6,8 @@ import ro.bogdanmunteanu.currencyconverter.data.model.Currency
 import ro.bogdanmunteanu.currencyconverter.ui.holders.AbstractCurrencyViewHolder
 
 interface CurrencyTypeFactory {
-    fun type(baseCurrecy : BaseCurrency) : Int
-    fun type(currency : Currency) : Int
+    fun type(baseCurrecy: BaseCurrency): Int
+    fun type(currency: Currency): Int
 
-    fun holder(type : Int, view : View) : AbstractCurrencyViewHolder<*>
+    fun holder(type: Int, view: View): AbstractCurrencyViewHolder<*>
 }

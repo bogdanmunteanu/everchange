@@ -12,7 +12,8 @@ class NetworkInfo(private val context: Context) {
         return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
     }
 }
+
 /**
 Wrapper class for offline status
  */
-class OfflineException:Exception()
+class OfflineException : Exception()
