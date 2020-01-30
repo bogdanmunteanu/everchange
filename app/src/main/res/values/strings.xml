@@ -10,4 +10,6 @@
     <string name="btn_terms_and_conditions_text">Terms and condtions</string>
     <string name="btn_about_text">About</string>
     <string name="btn_converter_text">Converter</string>
+    <string name="everchange_title_start">ever</string>
+    <string name="everchange_title_end">change</string>
 </resources>

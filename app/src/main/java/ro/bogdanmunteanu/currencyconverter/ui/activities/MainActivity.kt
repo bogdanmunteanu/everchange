@@ -155,7 +155,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
     private fun prepareAppTitle(): SpannableStringBuilder {
         val builder = SpannableStringBuilder()
 
-        val str1 = SpannableString("ever")
+        val str1 = SpannableString(getString(R.string.everchange_title_start))
         str1.setSpan(
             ForegroundColorSpan(ContextCompat.getColor(this, R.color.orange)),
             0,
@@ -164,7 +164,7 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         )
         builder.append(str1)
 
-        val str2 = SpannableString("change")
+        val str2 = SpannableString(getString(R.string.everchange_title_end))
         str2.setSpan(
             ForegroundColorSpan(ContextCompat.getColor(this, R.color.white)),
             0,
@@ -173,5 +173,16 @@ class MainActivity : DaggerAppCompatActivity(), NavigationView.OnNavigationItemS
         )
         builder.append(str2)
         return builder
+    }
+
+    override fun onBackPressed() {
+        when(supportFragmentManager.backStackEntryCount){
+            1->{
+                finish()
+            }
+            else->{
+                super.onBackPressed()
+            }
+        }
     }
 }

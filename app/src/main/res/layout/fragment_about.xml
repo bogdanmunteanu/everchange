@@ -55,13 +55,37 @@
                     android:id="@+id/fragmentTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="About everchange"
+                    tools:text="everchange"
                     android:textColor="@color/black"
+                    android:textSize="28sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0" />
+
+            <WebView
+                    android:id="@+id/wvAbout"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/ivLinkedin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragmentTitle" />
+
+            <ImageView
+                    android:id="@+id/ivLinkedin"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="22dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+
+                    app:srcCompat="@drawable/ic_linkedin" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

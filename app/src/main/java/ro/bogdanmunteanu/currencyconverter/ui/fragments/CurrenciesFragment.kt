@@ -166,6 +166,7 @@ class CurrenciesFragment : DaggerFragment(), CurrencyClickListener, BaseCurrency
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //retry api call on result
         viewModel.getLiveCurrencies(CurrencyMapper.EUR.title, BigDecimal.ONE.toString())
-
     }
+
+
 }

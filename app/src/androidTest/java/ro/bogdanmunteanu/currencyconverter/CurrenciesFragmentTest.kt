@@ -29,7 +29,7 @@ class CurrenciesFragmentTest {
 
     @Before
     fun setUp() {
-        rule().activity.setFragment(CurrenciesFragment())
+        rule().activity.setFragment(CurrenciesFragment().newInstance())
     }
 
     @Test
