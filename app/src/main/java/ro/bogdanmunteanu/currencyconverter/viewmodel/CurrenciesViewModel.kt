@@ -31,9 +31,6 @@ class CurrenciesViewModel @Inject constructor(private val service: RevolutServic
     private var mFetchState: MutableLiveData<State> = MutableLiveData()
     val fetchState: LiveData<State> get() = mFetchState
 
-    private val fetchCurrenciesSubject: PublishSubject<Pair<String, String>> =
-        PublishSubject.create()
-
     override fun onCleared() {
         disposables.dispose()
         super.onCleared()
@@ -42,14 +39,6 @@ class CurrenciesViewModel @Inject constructor(private val service: RevolutServic
     init {
         mFetchState.value = State.DONE
     }
-
-    fun fetchCurrencies(baseCurrency: String, input: String) {
-        fetchCurrenciesSubject.onNext(Pair<String, String>(baseCurrency, input))
-    }
-
-    private fun getCurrenciesSubject() =
-        fetchCurrenciesSubject.toFlowable(BackpressureStrategy.LATEST)
-
 
     fun getLiveCurrencies(baseCurrency: String, input: String) {
         disposables.clear() //need to clear the disposables because we need to make API call with new parameter

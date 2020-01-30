@@ -5,7 +5,7 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.reactivex.Single
-import ro.bogdanmunteanu.currencyconverter.data.di.RevolutApiService
+import ro.bogdanmunteanu.currencyconverter.data.api.RevolutApiService
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import org.junit.Before
 import org.junit.Test

@@ -34,10 +34,10 @@ class CurrenciesFragmentTest {
 
     @Test
     fun visibleFields() {
-        Espresso.onView(withId(R.id.networkInfoLayout)).check(matches(isDisplayed()))
-        Espresso.onView(withId(R.id.connectionImage)).check(matches(isDisplayed()))
-        Espresso.onView(withId(R.id.connectionMessage)).check(matches(isDisplayed()))
-        Espresso.onView(withId(R.id.networkInfoLayout)).isGone()
+        Espresso.onView(withId(R.id.currenciesLayout)).check(matches(isDisplayed()))
+//        Espresso.onView(withId(R.id.connectionImage)).check(matches(isDisplayed()))
+//        Espresso.onView(withId(R.id.connectionMessage)).check(matches(isDisplayed()))
+//        Espresso.onView(withId(R.id.networkInfoLayout)).isGone()
     }
 
     fun ViewInteraction.isGone() = getViewAssertion(ViewMatchers.Visibility.GONE)
