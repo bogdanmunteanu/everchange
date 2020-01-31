@@ -23,14 +23,7 @@ class BaseCurrencyViewHolder(view: View) : AbstractCurrencyViewHolder<BaseCurren
         itemView.currencyTitle.text = item.baseCurrency.isoCode
         itemView.currencySubtitle.text = item.baseCurrency.name
         itemView.currencyInput.inputType = InputType.TYPE_CLASS_NUMBER
-        itemView.currencyInput.setText(
-            String.format(
-                Locale.getDefault(), item.baseCurrency.rate.setScale(
-                    3,
-                    RoundingMode.HALF_EVEN
-                ).toString()
-            )
-        )
+        itemView.currencyInput.setText(String.format(item.baseCurrency.rate.toString(),Locale.getDefault()))
 
         itemView.currencyInput.let {
             it.setSelection(it.text.length)

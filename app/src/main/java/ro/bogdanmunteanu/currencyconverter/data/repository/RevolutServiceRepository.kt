@@ -16,9 +16,7 @@ import javax.inject.Inject
 class RevolutServiceRepository @Inject constructor(private val apiService: RevolutApiService) {
 
     fun getCurrenciesFromEndpoint(
-        baseCurrency: String,
-        input: String = BigDecimal.ONE.toString()
-    ): Single<CurrencyResponse> {
+        baseCurrency: String): Single<CurrencyResponse> {
         return apiService.getCurrencies(baseCurrency).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 

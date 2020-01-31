@@ -8,6 +8,7 @@ import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.ui.holders.AbstractCurrencyViewHolder
+import java.math.RoundingMode
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -58,7 +59,9 @@ class CurrenciesAdapter(
                 BaseCurrency(
                     oldCurrencyItem.currency.isoCode,
                     oldCurrencyItem.currency.name,
-                    oldCurrencyItem.currency.rate,
+                    oldCurrencyItem.currency.rate.setScale(
+                    3,
+                    RoundingMode.HALF_EVEN),
                     oldCurrencyItem.currency.flagUrl,
                     oldCurrencyItem.currency.priority
                 )

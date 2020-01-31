@@ -46,7 +46,7 @@ class CurrenciesViewModel @Inject constructor(private val service: RevolutServic
         disposables.clear() //need to clear the disposables because we need to make API call with new parameter
         mFetchState.value = State.IN_PROGRESS
         disposables.add(
-            service.getCurrenciesFromEndpoint(baseCurrency, input)
+            service.getCurrenciesFromEndpoint(baseCurrency)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .delay(1, TimeUnit.SECONDS)
