@@ -1,51 +1,61 @@
 package ro.bogdanmunteanu.currencyconverter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
-import io.mockk.*
-import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.verify
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import junit.framework.Assert.*
 import org.junit.Before
-import org.junit.ClassRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+
 import org.mockito.junit.MockitoJUnitRunner
-import ro.bogdanmunteanu.currencyconverter.RxImmediateSchedulerRule
-import ro.bogdanmunteanu.currencyconverter.data.di.RevolutApiService
+import ro.bogdanmunteanu.currencyconverter.data.api.RevolutApiService
+import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyResponse
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
-import java.lang.Exception
+import java.math.BigDecimal
 
 
 @RunWith(MockitoJUnitRunner::class)
 class CurrenciesViewModelTest {
 
-    @RelaxedMockK
-    lateinit var service : RevolutApiService
+    companion object {
+        val baseCurrency: String = "EUR"
+        val input: String = BigDecimal.ONE.toString()
+    }
 
-    @RelaxedMockK
+    @Mock
+    lateinit var service: RevolutApiService
+
     lateinit var repository: RevolutServiceRepository
 
-    @RelaxedMockK
+    @Mock
     lateinit var stateOberver: Observer<CurrenciesViewModel.State>
 
-    @RelaxedMockK
-    lateinit var currenciesObserver: Observer<List<Any>>
+    @Mock
+    lateinit var currenciesObserver: Observer<List<CurrencyAbstractModel>>
 
-    @RelaxedMockK
-    lateinit var disposable: CurrencyDisposable
-
-    @RelaxedMockK
+    @Mock
     lateinit var viewModel: CurrenciesViewModel
 
-    companion object {
-        @ClassRule
-        @JvmField
-        val schedulers = RxImmediateSchedulerRule()
-    }
+    @Mock
+    lateinit var owner: LifecycleOwner
+
+    @Mock
+    lateinit var lifecycle: Lifecycle
+
 
     @Rule
     @JvmField
@@ -53,25 +63,25 @@ class CurrenciesViewModelTest {
 
     @Before
     @Throws(Exception::class)
-    fun setUp()
-    {
+    fun setUp() {
+
         MockitoAnnotations.initMocks(this)
-        MockKAnnotations.init(this)
+        lifecycle = LifecycleRegistry(owner)
         repository = RevolutServiceRepository(service)
         viewModel = CurrenciesViewModel(repository)
+        viewModel.currencies.observeForever(currenciesObserver)
+
 
     }
 
     @Test
-    fun viewModelTest() {
-        //not working
-        val baseCurrency: String = "EUR"
-        viewModel.fetchState.observeForever(stateOberver)
-        every { viewModel.getLiveCurrencies(baseCurrency)} just Runs
-        io.mockk.verify(exactly = 1) { viewModel.getLiveCurrencies(baseCurrency) }
-        io.mockk.verify{currenciesObserver.onChanged(listOf(CurrencyAbstractModel::class.java))}
+    fun testFetchData() {
+        `when`(repository.getCurrenciesFromEndpoint(baseCurrency, input)).thenReturn(Single.just(
+            mock(CurrencyResponse::class.java)))
+        viewModel.getLiveCurrencies(baseCurrency, input)
+        verify { stateOberver.onChanged(CurrenciesViewModel.State.IN_PROGRESS) }
+        verify { currenciesObserver.onChanged(listOf()) }
+        assertTrue(viewModel.currencies.hasObservers())
     }
-
-
 
 }

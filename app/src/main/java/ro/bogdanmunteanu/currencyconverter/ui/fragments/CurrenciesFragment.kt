@@ -18,13 +18,13 @@ import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelFactory
-import ro.bogdanmunteanu.currencyconverter.ui.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.ui.activities.MainActivity
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.BaseCurrencyInputListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrenciesAdapter
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyClickListener
 import ro.bogdanmunteanu.currencyconverter.ui.adapters.CurrencyTypeFactoryImpl
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
+import ro.bogdanmunteanu.currencyconverter.utils.CurrencyMapper
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -98,7 +98,7 @@ class CurrenciesFragment : DaggerFragment(), CurrencyClickListener, BaseCurrency
         viewModel.fetchState.observe(this, Observer<CurrenciesViewModel.State> {
             when (it) {
                 CurrenciesViewModel.State.DONE -> {
-                    viewModel.getLiveCurrencies(CurrencyMapper.EUR.title, BigDecimal.ONE.toString())
+                    viewModel.getLiveCurrencies(CurrencyMapper.MappedCurrency.EUR.title, BigDecimal.ONE.toString())
                 }
                 CurrenciesViewModel.State.IN_PROGRESS -> {
                     connectionImage.setImageResource(R.drawable.ic_wifi)
@@ -165,7 +165,7 @@ class CurrenciesFragment : DaggerFragment(), CurrencyClickListener, BaseCurrency
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //retry api call on result
-        viewModel.getLiveCurrencies(CurrencyMapper.EUR.title, BigDecimal.ONE.toString())
+        viewModel.getLiveCurrencies(CurrencyMapper.MappedCurrency.EUR.title, BigDecimal.ONE.toString())
     }
 
 

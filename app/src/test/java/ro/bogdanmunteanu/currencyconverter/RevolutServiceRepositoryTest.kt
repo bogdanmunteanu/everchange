@@ -1,5 +1,6 @@
 package ro.bogdanmunteanu.currencyconverter
 
+
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith
 import org.mockito.*
 
 import org.mockito.junit.MockitoJUnitRunner
+import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyResponse
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 
 
@@ -20,7 +22,7 @@ import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractM
 class RevolutServiceRepositoryTest {
 
     @RelaxedMockK
-    lateinit var service : RevolutApiService //Mockito.mock(RevolutApiService::class.java)
+    lateinit var service : RevolutApiService
 
     lateinit var  repository :RevolutServiceRepository
 
@@ -35,7 +37,7 @@ class RevolutServiceRepositoryTest {
     @Test
     fun repositoryServiceTest(){
         val baseCurrency: String = "EUR"
-        val singleResponse = mockk<Single<List<CurrencyAbstractModel>>>(relaxed = true)
+        val singleResponse = mockk<Single<CurrencyResponse>>(relaxed = true)
         every {repository.getCurrenciesFromEndpoint(baseCurrency)} returns singleResponse//.thenReturn(Single.just(repository.mapCurrencies(mockCurrencies)))
         repository.getCurrenciesFromEndpoint(baseCurrency).test().assertComplete()
         io.mockk.verify(exactly = 1) { service.getCurrencies(baseCurrency) }

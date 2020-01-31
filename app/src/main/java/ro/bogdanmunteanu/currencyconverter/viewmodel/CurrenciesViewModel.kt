@@ -9,11 +9,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import ro.bogdanmunteanu.currencyconverter.data.api.OfflineException
+import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyResponse
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import ro.bogdanmunteanu.currencyconverter.utils.CurrencyDisposable
+import ro.bogdanmunteanu.currencyconverter.utils.CurrencyMapper
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -49,6 +51,7 @@ class CurrenciesViewModel @Inject constructor(private val service: RevolutServic
                 .observeOn(AndroidSchedulers.mainThread())
                 .delay(1, TimeUnit.SECONDS)
                 .repeat()
+                .map { t: CurrencyResponse -> CurrencyMapper.mapCurrencies(t, input) }
                 .subscribe({ list ->
                     mCurrencies.postValue(setupListForView(input, list))
                 }, { error ->

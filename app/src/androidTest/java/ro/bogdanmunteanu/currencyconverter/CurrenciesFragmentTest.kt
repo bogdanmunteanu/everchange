@@ -1,8 +1,7 @@
 package ro.bogdanmunteanu.currencyconverter
 
-import android.service.autofill.Validators.and
-import android.service.autofill.Validators.not
-import androidx.test.espresso.Espresso
+
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions
@@ -12,6 +11,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import org.hamcrest.CoreMatchers.not
+import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -34,20 +35,8 @@ class CurrenciesFragmentTest {
 
     @Test
     fun visibleFields() {
-        Espresso.onView(withId(R.id.currenciesLayout)).check(matches(isDisplayed()))
-//        Espresso.onView(withId(R.id.connectionImage)).check(matches(isDisplayed()))
-//        Espresso.onView(withId(R.id.connectionMessage)).check(matches(isDisplayed()))
-//        Espresso.onView(withId(R.id.networkInfoLayout)).isGone()
-    }
-
-    fun ViewInteraction.isGone() = getViewAssertion(ViewMatchers.Visibility.GONE)
-
-    fun ViewInteraction.isVisible() = getViewAssertion(ViewMatchers.Visibility.VISIBLE)
-
-    fun ViewInteraction.isInvisible() = getViewAssertion(ViewMatchers.Visibility.INVISIBLE)
-
-
-    private fun getViewAssertion(visibility: ViewMatchers.Visibility): ViewAssertion? {
-        return ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(visibility))
+        onView(withId(R.id.currenciesLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.loading)).check(matches(isDisplayed()))
+        onView(withId(R.id.currenciesRecyclerView)).check(matches(not(isDisplayed())))
     }
 }
