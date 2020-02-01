@@ -6,16 +6,14 @@ import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import io.reactivex.Single
-import ro.bogdanmunteanu.currencyconverter.data.api.RevolutApiService
-import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.*
-
+import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import ro.bogdanmunteanu.currencyconverter.data.api.RevolutApiService
 import ro.bogdanmunteanu.currencyconverter.data.model.CurrencyResponse
-import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
+import ro.bogdanmunteanu.currencyconverter.data.repository.RevolutServiceRepository
 
 
 @RunWith(MockitoJUnitRunner::class)

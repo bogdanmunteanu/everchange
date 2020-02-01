@@ -67,6 +67,7 @@
                 android:id="@+id/currencyInput"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:padding="10dp"
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/questrial"
                 android:gravity="end"
