@@ -1,18 +1,19 @@
 package ro.bogdanmunteanu.currencyconverter.di.module
 
 import android.content.Context
-import dagger.Binds
 import dagger.Module
-import ro.bogdanmunteanu.currencyconverter.Application
-import ro.bogdanmunteanu.currencyconverter.di.module.network.NetworkModule
+import dagger.Provides
+import ro.bogdanmunteanu.currencyconverter.EverchangeApp
+import javax.inject.Singleton
 
 /**
  * Application-wide dependencies
  */
-@Module(includes = [NetworkModule::class])
-abstract class AppModule {
+@Module
+class AppModule {
 
-    @Binds
-    abstract fun provideContext(application: Application): Context
+    @Singleton
+    @Provides
+    fun provideContext(application: EverchangeApp): Context = application.applicationContext
 
 }

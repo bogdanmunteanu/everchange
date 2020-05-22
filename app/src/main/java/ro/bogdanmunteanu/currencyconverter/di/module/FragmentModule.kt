@@ -1,4 +1,4 @@
-package ro.bogdanmunteanu.currencyconverter.di.module.fragments
+package ro.bogdanmunteanu.currencyconverter.di.module
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

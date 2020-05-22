@@ -18,6 +18,7 @@ class CurrencyViewHolder(view: View) : AbstractCurrencyViewHolder<CurrencyModel>
 
         itemView.currencyTitle.text = item.currency.isoCode
         itemView.currencySubtitle.text = item.currency.name
+        itemView.currencyInput.isEnabled = false
         itemView.currencyInput.setText(
             item.currency.rate.setScale(
                 2,
@@ -27,10 +28,8 @@ class CurrencyViewHolder(view: View) : AbstractCurrencyViewHolder<CurrencyModel>
         Glide.with(itemView.context)
             .load(item.currency.flagUrl)
             .into(itemView.currencyImage)
-        itemView.currencyInput.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                clickListener.onItemClick(position, item)
-            }
+        itemView.setOnClickListener {
+            clickListener.onItemClick(position, item)
         }
     }
 }

@@ -1,12 +1,10 @@
-package ro.bogdanmunteanu.currencyconverter.di.module.fragments
+package ro.bogdanmunteanu.currencyconverter.di.module
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 import ro.bogdanmunteanu.currencyconverter.di.viewmodel.ViewModelKey
-import ro.bogdanmunteanu.currencyconverter.ui.fragments.CurrenciesFragment
 import ro.bogdanmunteanu.currencyconverter.viewmodel.CurrenciesViewModel
 
 @Module

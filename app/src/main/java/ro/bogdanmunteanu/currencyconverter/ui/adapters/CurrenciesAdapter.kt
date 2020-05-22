@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ro.bogdanmunteanu.currencyconverter.data.model.BaseCurrency
+import ro.bogdanmunteanu.currencyconverter.data.model.Currency
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.BaseCurrencyModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyAbstractModel
 import ro.bogdanmunteanu.currencyconverter.data.model.bindings.CurrencyModel
 import ro.bogdanmunteanu.currencyconverter.ui.holders.AbstractCurrencyViewHolder
+import java.math.BigDecimal
 import java.math.RoundingMode
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -57,6 +58,8 @@ class CurrenciesAdapter(
         oldCurrencyItem?.let {
             val newBaseCurrencyItem = BaseCurrencyModel(
                 BaseCurrency(
+                    null,
+                    oldCurrencyItem.currency.base,
                     oldCurrencyItem.currency.isoCode,
                     oldCurrencyItem.currency.name,
                     oldCurrencyItem.currency.rate.setScale(

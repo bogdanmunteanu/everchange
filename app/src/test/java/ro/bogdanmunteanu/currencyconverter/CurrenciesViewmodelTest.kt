@@ -73,7 +73,7 @@ class CurrenciesViewModelTest {
 
     @Test
     fun testFetchData() {
-        `when`(repository.getCurrenciesFromEndpoint(baseCurrency)).thenReturn(
+        `when`(repository.getCurrenciesFromApi(baseCurrency)).thenReturn(
             Single.just(
                 mock(CurrencyResponse::class.java)
             )

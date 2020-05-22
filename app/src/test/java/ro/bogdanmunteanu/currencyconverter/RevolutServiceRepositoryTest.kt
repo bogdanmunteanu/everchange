@@ -36,8 +36,8 @@ class RevolutServiceRepositoryTest {
     fun repositoryServiceTest(){
         val baseCurrency: String = "EUR"
         val singleResponse = mockk<Single<CurrencyResponse>>(relaxed = true)
-        every {repository.getCurrenciesFromEndpoint(baseCurrency)} returns singleResponse//.thenReturn(Single.just(repository.mapCurrencies(mockCurrencies)))
-        repository.getCurrenciesFromEndpoint(baseCurrency).test().assertComplete()
+        every {repository.getCurrenciesFromApi(baseCurrency)} returns singleResponse//.thenReturn(Single.just(repository.mapCurrencies(mockCurrencies)))
+        repository.getCurrenciesFromApi(baseCurrency).test().assertComplete()
         io.mockk.verify(exactly = 1) { service.getCurrencies(baseCurrency) }
     }
 }
